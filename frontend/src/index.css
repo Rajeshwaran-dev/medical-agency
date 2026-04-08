@@ -1,0 +1,105 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
+@import "tailwindcss";
+
+body {
+  font-family: Inter, "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.admin-dashboard,
+.admin-dashboard * {
+  font-family: "Outfit", sans-serif !important;
+}
+
+.admin-dashboard .admin-sidebar-menu .ant-menu-item {
+  height: 44px;
+  line-height: 44px;
+  margin-block: 8px;
+  border-radius: 12px;
+  color: rgba(231, 240, 255, 0.9);
+  transition: all 0.25s ease;
+}
+
+.admin-dashboard .admin-sidebar-menu .ant-menu-item .ant-menu-title-content {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.admin-dashboard .admin-sidebar-menu .ant-menu-item .anticon {
+  font-size: 16px;
+}
+
+.admin-dashboard .admin-sidebar-menu .ant-menu-item:hover {
+  background: rgba(255, 255, 255, 0.12) !important;
+  color: #ffffff !important;
+}
+
+.admin-dashboard .admin-sidebar-menu .ant-menu-item-selected {
+  background: linear-gradient(90deg, #1a73ff, #2997ff) !important;
+  color: #fff !important;
+  box-shadow: 0 8px 20px rgba(26, 115, 255, 0.4);
+}
+
+.admin-dashboard .admin-sidebar-menu .ant-menu-item-selected::after {
+  display: none;
+}
+
+.admin-dashboard-page p {
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.admin-clickable-image {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid #e8edf5;
+}
+
+.admin-clickable-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.admin-clickable-image--table {
+  width: 56px;
+  height: 56px;
+}
+
+.admin-clickable-image--modal {
+  width: 150px;
+  height: 150px;
+}
+
+.admin-clickable-image__overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.42);
+  color: #fff;
+  font-size: 18px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.admin-clickable-image:hover .admin-clickable-image__overlay {
+  opacity: 1;
+}
+
+.admin-image-remove-btn {
+  position: absolute !important;
+  top: 6px;
+  right: 6px;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px !important;
+  background: rgba(0, 0, 0, 0.62) !important;
+  color: #fff !important;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  z-index: 2;
+}
