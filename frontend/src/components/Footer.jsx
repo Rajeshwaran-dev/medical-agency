@@ -13,6 +13,7 @@ const exploreLinks = [
   { path: "/", label: "Home" },
   { path: "/about", label: "About" },
   { path: "/products", label: "Products" },
+  { path: "/services", label: "Services" },
   { path: "/contact", label: "Contact" }
 ];
 
@@ -25,11 +26,18 @@ function Footer() {
         <div className="rounded-[30px] border border-white/10 bg-white/[0.04] p-6 shadow-[0_22px_70px_rgba(2,6,23,0.45)] backdrop-blur-md sm:p-10">
           <div className="grid gap-10 lg:grid-cols-4">
             <div className="space-y-4">
-              <h3 className="text-2xl font-bold tracking-tight text-emerald-300">MediAgency</h3>
-              <p className="max-w-xs text-sm leading-7 text-slate-300/95">
+              {/* Logo + brand */}
+              <div className="flex items-center gap-3">
+                <img
+                  src="/logo.png"
+                  alt="MediAgency logo"
+                  className="h-24 w-24 rounded-xl object-contain"
+                />
+              </div>
+              <p className="max-w-xs text-base leading-7 text-slate-300/95">
                 We deliver trusted healthcare products and reliable support that creates real-world medical impact.
               </p>
-              <div className="flex flex-wrap gap-2 text-xs">
+              <div className="flex flex-wrap gap-2 text-sm">
                 {["Trusted", "Medical", "24/7 Support"].map((pill) => (
                   <span
                     key={pill}
@@ -48,7 +56,7 @@ function Footer() {
                   <Link
                     key={item.path}
                     to={item.path}
-                    className="block text-sm text-slate-200 transition hover:translate-x-1 hover:text-emerald-300"
+                    className="block text-base text-slate-200 transition hover:translate-x-1 hover:text-emerald-300"
                   >
                     {item.label}
                   </Link>
@@ -70,7 +78,7 @@ function Footer() {
 
             <div className="space-y-4">
               <h4 className="text-xs font-semibold uppercase tracking-[0.22em] text-emerald-300">Contact</h4>
-              <ul className="space-y-3 text-sm text-slate-200">
+              <ul className="space-y-3 text-base text-slate-200">
                 <li className="flex items-start gap-2 leading-6">
                   <EnvironmentOutlined className="mt-1 text-emerald-300" />
                   24 Health Avenue, Medical District
@@ -117,7 +125,7 @@ function Footer() {
             </div>
           </div>
           <div className="mt-8 border-t border-white/10 pt-5">
-            <div className="flex flex-wrap items-center justify-between gap-3 text-sm text-slate-300">
+            <div className="flex flex-wrap items-center justify-between gap-3 text-base text-slate-300">
               <span>© {new Date().getFullYear()} MediAgency. All rights reserved.</span>
               <span>Professional Healthcare Solutions</span>
             </div>
