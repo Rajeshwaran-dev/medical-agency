@@ -7,6 +7,13 @@ const productSchema = new mongoose.Schema(
     price: { type: Number, required: true, min: 0 },
     offer: { type: mongoose.Schema.Types.ObjectId, ref: "Offer", default: null },
     image: { type: String, default: "" },
+    images: { type: [String], default: [] },
+    specs: [
+      {
+        label: { type: String, trim: true, default: "" },
+        value: { type: String, trim: true, default: "" }
+      }
+    ],
     description: { type: String, required: true, trim: true }
   },
   { timestamps: true }

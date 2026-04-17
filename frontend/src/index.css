@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: "Jost", sans-serif;
   font-size: 18px;
@@ -11,7 +15,16 @@ h1, h2, h3, h4, h5, h6 {
 
 .admin-dashboard,
 .admin-dashboard * {
-  font-family: "Outfit", sans-serif !important;
+  font-family: "Jost", sans-serif;
+}
+
+.admin-dashboard h1,
+.admin-dashboard h2,
+.admin-dashboard h3,
+.admin-dashboard h4,
+.admin-dashboard h5,
+.admin-dashboard h6 {
+  font-family: "Geom", sans-serif;
 }
 
 .admin-dashboard .admin-sidebar-menu .ant-menu-item {
@@ -106,4 +119,30 @@ h1, h2, h3, h4, h5, h6 {
   place-items: center;
   font-weight: 700;
   z-index: 2;
+}
+
+/* ── SWIPER CUSTOM ── */
+.custom-pagination .swiper-pagination-bullet {
+  width: 10px;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.3) !important;
+  opacity: 1 !important;
+  transition: all 0.3s ease;
+  border-radius: 99px;
+}
+
+.custom-pagination .swiper-pagination-bullet-active {
+  width: 32px;
+  background: #14b8a6 !important; /* teal-500 */
+  box-shadow: 0 0 10px rgba(20, 184, 166, 0.4);
+}
+
+/* Prevent horizontal scrollbar in any popup modal */
+.ant-modal-root,
+.ant-modal-wrap,
+.ant-modal,
+.ant-modal-content,
+.ant-modal-body {
+  overflow-x: hidden !important;
+  max-width: 100%;
 }

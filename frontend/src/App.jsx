@@ -1,8 +1,10 @@
 import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import BackToTopButton from "./components/BackToTopButton";
 import HomePage from "./pages/HomePage";
 import ProductsPage from "./pages/ProductsPage";
+import ProductDetailsPage from "./pages/ProductDetailsPage";
 import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
 import ServicesPage from "./pages/ServicesPage";
@@ -15,12 +17,13 @@ import DashboardPage from "./admin/pages/DashboardPage";
 import AdminProductsPage from "./admin/pages/ProductsPage";
 import CategoriesPage from "./admin/pages/CategoriesPage";
 import OffersPage from "./admin/pages/OffersPage";
+import LeadsPage from "./admin/pages/LeadsPage";
 
 function WebsiteLayout() {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900">
       <Navbar />
-      <main className="mx-auto min-h-[calc(100vh-320px)] max-w-7xl px-4 pb-10 pt-28 sm:px-6 lg:px-8">
+      <main className="min-h-[calc(100vh-320px)] pt-28">
         <Outlet />
       </main>
       <Footer />
@@ -36,6 +39,7 @@ function App() {
           <Route index element={<HomePage />} />
           <Route path="about" element={<AboutPage />} />
           <Route path="products" element={<ProductsPage />} />
+          <Route path="products/:id" element={<ProductDetailsPage />} />
           <Route path="services" element={<ServicesPage />} />
           <Route path="contact" element={<ContactPage />} />
           <Route path="*" element={<NotFoundPage />} />
@@ -53,9 +57,14 @@ function App() {
           <Route path="products" element={<AdminProductsPage />} />
           <Route path="categories" element={<CategoriesPage />} />
           <Route path="offers" element={<OffersPage />} />
+          <Route path="leads" element={<LeadsPage />} />
         </Route>
-        <Route path="/admin/*" element={<Navigate to="/admin/login" replace />} />
+        <Route
+          path="/admin/*"
+          element={<Navigate to="/admin/login" replace />}
+        />
       </Routes>
+      <BackToTopButton />
     </AuthProvider>
   );
 }

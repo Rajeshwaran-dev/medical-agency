@@ -55,31 +55,10 @@ function ProductsPage() {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -12 }}
       transition={{ duration: 0.35 }}
-      className="space-y-8"
+      className="space-y-8 mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8"
     >
       <Breadcrumbs />
       {/* ── HERO ── */}
-      <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-blue-950 to-teal-900 text-white">
-        <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-teal-400/20 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-10 left-1/3 h-48 w-48 rounded-full bg-cyan-500/15 blur-2xl" />
-
-        <div className="relative px-8 py-10 sm:px-12 sm:py-14">
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-teal-400/30 bg-teal-400/10 px-4 py-1.5">
-            <span className="text-xs font-bold uppercase tracking-widest text-teal-300">Products</span>
-          </div>
-          <h1 className="mt-2 max-w-2xl text-3xl font-extrabold leading-tight sm:text-4xl">
-            Specialty Healthcare Products{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-300 to-cyan-300">
-              You Can Rely On
-            </span>
-          </h1>
-          <p className="mt-3 max-w-xl text-base text-slate-300">
-            Browse our curated catalogue of certified specialty medicines — from Oncology and
-            Critical Care to Vaccines and Imported Drugs.
-          </p>
-        </div>
-        <div className="h-1 w-full bg-gradient-to-r from-teal-500 via-cyan-400 to-blue-500" />
-      </section>
 
       {/* ── FILTER BAR ── */}
       <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">

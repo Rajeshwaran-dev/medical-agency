@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import {
   EnvironmentOutlined,
@@ -8,6 +9,7 @@ import {
 } from "@ant-design/icons";
 import SectionHeading from "../components/SectionHeading";
 import Breadcrumbs from "../components/Breadcrumbs";
+import { publicApi } from "../services/api";
 
 const contactCards = [
   {
@@ -67,13 +69,61 @@ const contactCards = [
 ];
 
 function ContactPage() {
+  const [contactForm, setContactForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    organization: "",
+    subject: "",
+    message: "",
+  });
+  const [submitStatus, setSubmitStatus] = useState({ success: "", error: "" });
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setContactForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setSubmitStatus({ success: "", error: "" });
+    setSubmitting(true);
+
+    try {
+      await publicApi.post("/leads", contactForm);
+      setSubmitStatus({
+        success: "Enquiry submitted successfully.",
+        error: "",
+      });
+      setContactForm({
+        name: "",
+        email: "",
+        phone: "",
+        organization: "",
+        subject: "",
+        message: "",
+      });
+    } catch (error) {
+      setSubmitStatus({
+        success: "",
+        error:
+          error?.response?.data?.message ||
+          "Unable to submit enquiry. Please try again.",
+      });
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -16 }}
       transition={{ duration: 0.35 }}
-      className="space-y-12"
+      transition={{ duration: 0.35 }}
+      className="space-y-12 mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8"
     >
       <Breadcrumbs />
       {/* ── HERO ── */}
@@ -94,8 +144,9 @@ function ContactPage() {
             </span>
           </h1>
           <p className="mt-4 max-w-xl text-base leading-relaxed text-slate-300">
-            Reach out for product inquiries, partnership opportunities, bulk orders, or 24/7
-            emergency drug supply. Our team is always ready to help.
+            Reach out for product inquiries, partnership opportunities, bulk
+            orders, or 24/7 emergency drug supply. Our team is always ready to
+            help.
           </p>
 
           <div className="mt-6 flex flex-wrap gap-3">
@@ -121,8 +172,12 @@ function ContactPage() {
       {/* ── CONTACT CARDS ── */}
       <section>
         <div className="mb-6">
-          <p className="text-xs font-bold uppercase tracking-widest text-teal-600">Get In Touch</p>
-          <h2 className="mt-1 text-2xl font-extrabold text-slate-900">Multiple Ways To Reach Us</h2>
+          <p className="text-xs font-bold uppercase tracking-widest text-teal-600">
+            Get In Touch
+          </p>
+          <h2 className="mt-1 text-2xl font-extrabold text-slate-900">
+            Multiple Ways To Reach Us
+          </h2>
         </div>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {contactCards.map((card, i) => (
@@ -130,7 +185,9 @@ function ContactPage() {
               key={card.title}
               href={card.href}
               target={card.href.startsWith("http") ? "_blank" : undefined}
-              rel={card.href.startsWith("http") ? "noopener noreferrer" : undefined}
+              rel={
+                card.href.startsWith("http") ? "noopener noreferrer" : undefined
+              }
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -138,10 +195,14 @@ function ContactPage() {
               whileHover={{ y: -3, scale: 1.01 }}
               className={`block rounded-2xl border bg-white p-5 shadow-sm transition hover:shadow-md border-t-4 ${card.accent}`}
             >
-              <div className={`mb-3 inline-flex h-11 w-11 items-center justify-center rounded-xl text-lg ${card.color} border`}>
+              <div
+                className={`mb-3 inline-flex h-11 w-11 items-center justify-center rounded-xl text-lg ${card.color} border`}
+              >
                 {card.icon}
               </div>
-              <p className="text-xs font-bold uppercase tracking-wide text-slate-400">{card.title}</p>
+              <p className="text-xs font-bold uppercase tracking-wide text-slate-400">
+                {card.title}
+              </p>
               <p className="mt-1 font-bold text-slate-900">{card.value}</p>
               <p className="mt-0.5 text-xs text-slate-500">{card.sub}</p>
             </motion.a>
@@ -158,58 +219,99 @@ function ContactPage() {
             title="Let's Discuss How We Can Help"
             description="Share your requirements and our team will respond promptly."
           />
-          <div className="mt-6 grid gap-4 sm:grid-cols-2">
+          <form
+            onSubmit={handleSubmit}
+            className="mt-6 grid gap-4 sm:grid-cols-2"
+          >
             <input
+              name="name"
               type="text"
+              value={contactForm.name}
+              onChange={handleChange}
               placeholder="Your Name"
               className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-teal-500 focus:bg-white focus:ring-2 focus:ring-teal-100"
+              required
             />
             <input
+              name="email"
               type="email"
+              value={contactForm.email}
+              onChange={handleChange}
               placeholder="Email Address"
               className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-teal-500 focus:bg-white focus:ring-2 focus:ring-teal-100"
+              required
             />
             <input
+              name="phone"
               type="tel"
+              value={contactForm.phone}
+              onChange={handleChange}
               placeholder="Phone Number"
               className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-teal-500 focus:bg-white focus:ring-2 focus:ring-teal-100"
+              required
             />
             <input
+              name="organization"
               type="text"
+              value={contactForm.organization}
+              onChange={handleChange}
               placeholder="Hospital / Clinic Name"
               className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-teal-500 focus:bg-white focus:ring-2 focus:ring-teal-100"
             />
             <input
+              name="subject"
               type="text"
+              value={contactForm.subject}
+              onChange={handleChange}
               placeholder="Subject / Drug Name"
               className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-teal-500 focus:bg-white focus:ring-2 focus:ring-teal-100 sm:col-span-2"
             />
             <textarea
+              name="message"
               rows={4}
+              value={contactForm.message}
+              onChange={handleChange}
               placeholder="Your Message or Requirement"
               className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-teal-500 focus:bg-white focus:ring-2 focus:ring-teal-100 sm:col-span-2"
             />
+            {submitStatus.error && (
+              <p className="text-sm text-red-600 sm:col-span-2">
+                {submitStatus.error}
+              </p>
+            )}
+            {submitStatus.success && (
+              <p className="text-sm text-green-600 sm:col-span-2">
+                {submitStatus.success}
+              </p>
+            )}
             <button
-              type="button"
-              className="rounded-full bg-teal-600 px-6 py-3 text-sm font-bold text-white shadow-md shadow-teal-200 transition hover:-translate-y-0.5 hover:bg-teal-700 sm:col-span-2 sm:w-fit"
+              type="submit"
+              disabled={submitting}
+              className="rounded-full bg-teal-600 px-6 py-3 text-sm font-bold text-white shadow-md shadow-teal-200 transition hover:-translate-y-0.5 hover:bg-teal-700 disabled:cursor-not-allowed disabled:opacity-70 sm:col-span-2 sm:w-fit"
             >
-              Submit Inquiry →
+              {submitting ? "Submitting..." : "Submit Inquiry →"}
             </button>
-          </div>
+          </form>
         </div>
 
         {/* Address + Map */}
         <div className="lg:col-span-2 flex flex-col gap-4">
           <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm flex-1">
-            <p className="text-xs font-bold uppercase tracking-widest text-teal-600 mb-4">Our Location</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-teal-600 mb-4">
+              Our Location
+            </p>
             <div className="space-y-3 text-sm">
               <div className="flex gap-3">
                 <EnvironmentOutlined className="text-teal-500 mt-0.5 flex-shrink-0 text-base" />
                 <div>
-                  <p className="font-semibold text-slate-800">Madurai Life Care Drugs</p>
+                  <p className="font-semibold text-slate-800">
+                    Madurai Life Care Drugs
+                  </p>
                   <p className="text-slate-500 mt-0.5 leading-relaxed">
-                    No.24, Ground Floor, Vaithiyanathariyar Road,<br />
-                    Shenoy Nagar, Goripalayamm,<br />
+                    No.24, Ground Floor, Vaithiyanathariyar Road,
+                    <br />
+                    Shenoy Nagar, Goripalayamm,
+                    <br />
                     Madurai – 625020
                   </p>
                 </div>
@@ -217,15 +319,21 @@ function ContactPage() {
               <div className="border-t border-slate-100 pt-3 space-y-2">
                 <div className="flex justify-between">
                   <span className="text-slate-400">Office Hours</span>
-                  <span className="font-medium text-slate-700">8:00 AM – 9:00 PM</span>
+                  <span className="font-medium text-slate-700">
+                    8:00 AM – 9:00 PM
+                  </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-slate-400">Emergency</span>
-                  <span className="font-medium text-green-600">24/7 Available</span>
+                  <span className="font-medium text-green-600">
+                    24/7 Available
+                  </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-slate-400">Sunday</span>
-                  <span className="font-medium text-slate-700">By Appointment</span>
+                  <span className="font-medium text-slate-700">
+                    By Appointment
+                  </span>
                 </div>
               </div>
             </div>

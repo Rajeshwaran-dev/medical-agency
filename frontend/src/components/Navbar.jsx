@@ -40,14 +40,13 @@ function Navbar() {
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
         scrolled
           ? "bg-white/95 backdrop-blur-lg shadow-lg shadow-slate-200/60 border-b border-slate-200/80"
-          : "bg-white/80 backdrop-blur-md border-b border-slate-100"
+          : "bg-white border-b border-slate-100"
       }`}
     >
       {/* Top accent bar */}
       <div className="h-0.5 w-full bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-700" />
 
       <div className="mx-auto flex h-24 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-
         {/* ── Brand / Logo ── */}
         <Link
           to="/"
@@ -78,11 +77,11 @@ function Navbar() {
         {/* ── Desktop Right Actions ── */}
         <div className="hidden items-center gap-3 md:flex">
           <a
-            href="tel:+1800000000"
+            href="tel:+9952812513"
             className="inline-flex items-center gap-1.5 text-base font-medium text-slate-500 transition-colors duration-200 hover:text-blue-600"
           >
             <PhoneOutlined className="text-blue-500" />
-            <span>1800-000-000</span>
+            <span>+91 99528 12513</span>
           </a>
           <div className="h-5 w-px bg-slate-200" />
           <motion.div whileTap={{ scale: 0.96 }} whileHover={{ scale: 1.04 }}>
@@ -98,7 +97,11 @@ function Navbar() {
                 strokeWidth={2.5}
                 viewBox="0 0 24 24"
               >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M17 8l4 4m0 0l-4 4m4-4H3"
+                />
               </svg>
             </Link>
           </motion.div>
@@ -149,11 +152,11 @@ function Navbar() {
               {/* Mobile CTA */}
               <div className="flex flex-col gap-3">
                 <a
-                  href="tel:+1800000000"
+                  href="tel:+9952812513"
                   className="inline-flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-blue-600"
                 >
                   <PhoneOutlined className="text-blue-500" />
-                  1800-000-000
+                  +91 99528 12513
                 </a>
                 <Link
                   to="/contact"
@@ -168,7 +171,11 @@ function Navbar() {
                     strokeWidth={2.5}
                     viewBox="0 0 24 24"
                   >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M17 8l4 4m0 0l-4 4m4-4H3"
+                    />
                   </svg>
                 </Link>
               </div>

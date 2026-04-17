@@ -9,6 +9,7 @@ const authRoutes = require("./routes/authRoutes");
 const productRoutes = require("./routes/productRoutes");
 const categoryRoutes = require("./routes/categoryRoutes");
 const offerRoutes = require("./routes/offerRoutes");
+const leadRoutes = require("./routes/leadRoutes");
 const dashboardRoutes = require("./routes/dashboardRoutes");
 const { notFound, errorHandler } = require("./middlewares/errorMiddleware");
 
@@ -22,7 +23,7 @@ app.use(morgan("dev"));
 app.get("/", (req, res) => {
   res.json({
     success: true,
-    message: "Medical Agency API is running"
+    message: "Medical Agency API is running",
   });
 });
 
@@ -30,6 +31,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/offers", offerRoutes);
+app.use("/api/leads", leadRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 
 app.use(notFound);

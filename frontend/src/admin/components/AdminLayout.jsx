@@ -7,7 +7,8 @@ import {
   LogoutOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  UserOutlined
+  TeamOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 import { Button, Dropdown, Layout, Menu, Space, Typography } from "antd";
 import { useAuth } from "../context/AuthContext";
@@ -28,6 +29,7 @@ function AdminLayout() {
     if (location.pathname.includes("/admin/products")) return "products";
     if (location.pathname.includes("/admin/categories")) return "categories";
     if (location.pathname.includes("/admin/offers")) return "offers";
+    if (location.pathname.includes("/admin/leads")) return "leads";
     return "dashboard";
   }, [location.pathname]);
 
@@ -46,9 +48,10 @@ function AdminLayout() {
           insetInlineStart: 0,
           top: 0,
           bottom: 0,
-          background: "linear-gradient(180deg, #041a3b 0%, #00152e 45%, #001025 100%)",
+          background:
+            "linear-gradient(180deg, #041a3b 0%, #00152e 45%, #001025 100%)",
           borderInlineEnd: "1px solid rgba(255,255,255,0.08)",
-          boxShadow: "10px 0 30px rgba(0, 9, 25, 0.28)"
+          boxShadow: "10px 0 30px rgba(0, 9, 25, 0.28)",
         }}
       >
         <div
@@ -57,14 +60,21 @@ function AdminLayout() {
             color: "#fff",
             display: "grid",
             placeItems: "center",
-            fontWeight: 700,
-            fontSize: collapsed ? 16 : 22,
-            letterSpacing: 0.2,
             borderBottom: "1px solid rgba(255,255,255,0.08)",
-            background: "linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02))"
+            background:
+              "linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02))",
           }}
         >
-          {collapsed ? "MA" : "Medical Admin"}
+          <img
+            src="/logo.png"
+            alt="Medical Agency"
+            style={{
+              width: collapsed ? 38 : 54,
+              height: collapsed ? 38 : 54,
+              objectFit: "contain",
+              transition: "width 0.2s ease, height 0.2s ease",
+            }}
+          />
         </div>
         <Menu
           className="admin-sidebar-menu"
@@ -75,25 +85,34 @@ function AdminLayout() {
             marginTop: 10,
             background: "transparent",
             borderInlineEnd: "none",
-            paddingInline: 8
+            paddingInline: 8,
           }}
           items={[
             {
               key: "dashboard",
               icon: <DashboardOutlined />,
-              label: <Link to="/admin">Dashboard</Link>
+              label: <Link to="/admin">Dashboard</Link>,
             },
             {
               key: "products",
               icon: <AppstoreOutlined />,
-              label: <Link to="/admin/products">Products</Link>
+              label: <Link to="/admin/products">Products</Link>,
             },
             {
               key: "categories",
               icon: <AppstoreOutlined />,
-              label: <Link to="/admin/categories">Categories</Link>
+              label: <Link to="/admin/categories">Categories</Link>,
             },
-            { key: "offers", icon: <GiftOutlined />, label: <Link to="/admin/offers">Offers</Link> }
+            {
+              key: "offers",
+              icon: <GiftOutlined />,
+              label: <Link to="/admin/offers">Offers</Link>,
+            },
+            {
+              key: "leads",
+              icon: <TeamOutlined />,
+              label: <Link to="/admin/leads">Leads</Link>,
+            },
           ]}
         />
       </Sider>
@@ -113,22 +132,25 @@ function AdminLayout() {
                   {
                     key: "admin-label",
                     label: <Typography.Text strong>Admin</Typography.Text>,
-                    disabled: true
+                    disabled: true,
                   },
                   {
-                    type: "divider"
+                    type: "divider",
                   },
                   {
                     key: "logout",
                     icon: <LogoutOutlined />,
                     label: "Logout",
                     danger: true,
-                    onClick: handleLogout
-                  }
-                ]
+                    onClick: handleLogout,
+                  },
+                ],
               }}
             >
-              <Button type="text" icon={<UserOutlined style={{ fontSize: 18 }} />} />
+              <Button
+                type="text"
+                icon={<UserOutlined style={{ fontSize: 18 }} />}
+              />
             </Dropdown>
           </Space>
         </Header>

@@ -1,8 +1,17 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { DeleteOutlined, EditOutlined, EyeOutlined, UploadOutlined } from "@ant-design/icons";
+import {
+  DeleteOutlined,
+  EditOutlined,
+  EyeOutlined,
+  LeftOutlined,
+  PlusOutlined,
+  RightOutlined,
+  UploadOutlined
+} from "@ant-design/icons";
 import {
   Button,
+  Divider,
   Form,
   Input,
   InputNumber,
@@ -25,9 +34,9 @@ function ProductsPage() {
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState(null);
   const [form] = Form.useForm();
-  const [file, setFile] = useState(null);
-  const [imagePreview, setImagePreview] = useState("");
-  const [isCurrentImageRemoved, setIsCurrentImageRemoved] = useState(false);
+  const [imageFiles, setImageFiles] = useState([]);
+  const [previewImages, setPreviewImages] = useState([]);
+  const [previewIndex, setPreviewIndex] = useState(0);
   const [viewer, setViewer] = useState({ open: false, src: "" });
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
@@ -53,24 +62,34 @@ function ProductsPage() {
     fetchItems(1, "");
   }, []);
 
-  useEffect(() => {
-    if (!file) {
-      setImagePreview("");
-      return;
-    }
-
-    const previewUrl = URL.createObjectURL(file);
-    setImagePreview(previewUrl);
-    return () => URL.revokeObjectURL(previewUrl);
-  }, [file]);
+  useEffect(
+    () => () => {
+      previewImages.forEach((url) => {
+        if (url.startsWith("blob:")) URL.revokeObjectURL(url);
+      });
+    },
+    [previewImages]
+  );
 
   const openViewer = (src) => setViewer({ open: true, src });
-  const activeImageSrc = imagePreview || (!isCurrentImageRemoved ? editing?.image || "" : "");
+  const activeImageSrc = previewImages[previewIndex] || "";
+
+  const resetProductModalState = () => {
+    setImageFiles([]);
+    setPreviewImages([]);
+    setPreviewIndex(0);
+    form.resetFields();
+  };
 
   const submit = async (values) => {
     const formData = new FormData();
-    Object.entries(values).forEach(([key, value]) => formData.append(key, value ?? ""));
-    if (file) formData.append("image", file);
+    formData.append("name", values.name ?? "");
+    formData.append("category", values.category ?? "");
+    formData.append("price", values.price ?? "");
+    formData.append("offer", values.offer ?? "");
+    formData.append("description", values.description ?? "");
+    formData.append("specs", JSON.stringify(values.specs || []));
+    imageFiles.forEach((file) => formData.append("images", file));
 
     try {
       if (editing) await adminApi.put(`/products/${editing._id}`, formData);
@@ -78,10 +97,7 @@ function ProductsPage() {
       toast.success("Saved successfully");
       setOpen(false);
       setEditing(null);
-      setFile(null);
-      setImagePreview("");
-      setIsCurrentImageRemoved(false);
-      form.resetFields();
+      resetProductModalState();
       fetchItems(page, search);
     } catch (error) {
       toast.error(error?.response?.data?.message || "Save failed");
@@ -114,10 +130,8 @@ function ProductsPage() {
           type="primary"
           onClick={() => {
             setEditing(null);
-            setFile(null);
-            setImagePreview("");
-            setIsCurrentImageRemoved(false);
-            form.resetFields();
+            resetProductModalState();
+            form.setFieldsValue({ specs: [{ label: "", value: "" }] });
             setOpen(true);
           }}
         >
@@ -141,11 +155,14 @@ function ProductsPage() {
           { title: "Category", render: (_, r) => r.category?.name || "-" },
           {
             title: "Image",
-            dataIndex: "image",
+            dataIndex: "images",
             render: (value, record) =>
-              value ? (
-                <div className="admin-clickable-image admin-clickable-image--table" onClick={() => openViewer(value)}>
-                  <img src={value} alt={record.name} />
+              (value?.[0] || record.image) ? (
+                <div
+                  className="admin-clickable-image admin-clickable-image--table"
+                  onClick={() => openViewer(value?.[0] || record.image)}
+                >
+                  <img src={value?.[0] || record.image} alt={record.name} />
                   <div className="admin-clickable-image__overlay">
                     <EyeOutlined />
                   </div>
@@ -171,15 +188,25 @@ function ProductsPage() {
                 <Button
                   onClick={() => {
                     setEditing(record);
-                    setFile(null);
-                    setImagePreview("");
-                    setIsCurrentImageRemoved(false);
+                    const initialImages =
+                      Array.isArray(record.images) && record.images.length > 0
+                        ? record.images
+                        : record.image
+                          ? [record.image]
+                          : [];
+                    setImageFiles([]);
+                    setPreviewImages(initialImages);
+                    setPreviewIndex(0);
                     form.setFieldsValue({
                       name: record.name,
                       category: record.category?._id,
                       price: record.price,
                       offer: record.offer?._id,
-                      description: record.description
+                      description: record.description,
+                      specs:
+                        Array.isArray(record.specs) && record.specs.length > 0
+                          ? record.specs
+                          : [{ label: "", value: "" }]
                     });
                     setOpen(true);
                   }}
@@ -197,7 +224,11 @@ function ProductsPage() {
       <Modal
         open={open}
         title={editing ? "Edit Product" : "Add Product"}
-        onCancel={() => setOpen(false)}
+        onCancel={() => {
+          setOpen(false);
+          setEditing(null);
+          resetProductModalState();
+        }}
         footer={null}
         centered
         styles={{ body: { height: "68vh", overflowY: "auto", paddingRight: 8 } }}
@@ -218,43 +249,101 @@ function ProductsPage() {
           <Form.Item name="description" label="Description" rules={[{ required: true }]}>
             <Input.TextArea rows={3} />
           </Form.Item>
-          {!activeImageSrc ? (
-            <Form.Item label="Image">
-              <Upload
-                accept="image/*"
-                maxCount={1}
-                showUploadList={false}
-                beforeUpload={() => false}
-                onChange={(info) => {
-                  setFile(info.fileList?.[0]?.originFileObj || null);
-                  setIsCurrentImageRemoved(false);
-                }}
+          <Form.Item label="Product Images">
+            <Upload
+              accept="image/*"
+              multiple
+              showUploadList={false}
+              beforeUpload={() => false}
+              onChange={(info) => {
+                const files = info.fileList
+                  .map((entry) => entry.originFileObj)
+                  .filter(Boolean);
+                setImageFiles(files);
+                const nextPreviews = files.map((item) => URL.createObjectURL(item));
+                previewImages.forEach((url) => {
+                  if (url.startsWith("blob:")) URL.revokeObjectURL(url);
+                });
+                setPreviewImages(nextPreviews);
+                setPreviewIndex(0);
+              }}
+            >
+              <Button icon={<UploadOutlined />}>Upload Multiple Images</Button>
+            </Upload>
+          </Form.Item>
+
+          {activeImageSrc ? (
+            <div style={{ marginBottom: 18 }}>
+              <div
+                className="admin-clickable-image"
+                style={{ width: "100%", height: 220 }}
+                onClick={() => openViewer(activeImageSrc)}
               >
-                <Button icon={<UploadOutlined />}>Upload Image</Button>
-              </Upload>
-            </Form.Item>
-          ) : (
-            <div style={{ marginBottom: 16 }}>
-              <div className="admin-clickable-image admin-clickable-image--modal" onClick={() => openViewer(activeImageSrc)}>
                 <img src={activeImageSrc} alt="Product preview" />
                 <div className="admin-clickable-image__overlay">
                   <EyeOutlined />
                 </div>
-                <Button
-                  type="text"
-                  className="admin-image-remove-btn"
-                  onClick={(event) => {
-                    event.stopPropagation();
-                    setFile(null);
-                    setImagePreview("");
-                    setIsCurrentImageRemoved(true);
-                  }}
-                >
-                  x
-                </Button>
               </div>
+              <Space style={{ marginTop: 10 }}>
+                <Button
+                  icon={<LeftOutlined />}
+                  disabled={previewImages.length <= 1}
+                  onClick={() => setPreviewIndex((prev) => (prev - 1 + previewImages.length) % previewImages.length)}
+                />
+                <span style={{ color: "rgba(0,0,0,0.65)", fontSize: 13 }}>
+                  {previewIndex + 1} / {previewImages.length}
+                </span>
+                <Button
+                  icon={<RightOutlined />}
+                  disabled={previewImages.length <= 1}
+                  onClick={() => setPreviewIndex((prev) => (prev + 1) % previewImages.length)}
+                />
+              </Space>
             </div>
-          )}
+          ) : null}
+
+          <Divider orientation="left" style={{ marginTop: 8 }}>
+            Product Details Fields
+          </Divider>
+          <Form.List name="specs">
+            {(fields, { add, remove: removeSpec }) => (
+              <>
+                {fields.map((field) => (
+                  <div
+                    key={field.key}
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr) auto",
+                      gap: 8,
+                      marginBottom: 8,
+                      alignItems: "start"
+                    }}
+                  >
+                    <Form.Item
+                      {...field}
+                      name={[field.name, "label"]}
+                      rules={[{ required: true, message: "Field name required" }]}
+                      style={{ marginBottom: 0 }}
+                    >
+                      <Input placeholder="Field name (e.g. Brand)" />
+                    </Form.Item>
+                    <Form.Item
+                      {...field}
+                      name={[field.name, "value"]}
+                      rules={[{ required: true, message: "Value required" }]}
+                      style={{ marginBottom: 0 }}
+                    >
+                      <Input placeholder="Field value" />
+                    </Form.Item>
+                    <Button danger icon={<DeleteOutlined />} onClick={() => removeSpec(field.name)} />
+                  </div>
+                ))}
+                <Button type="dashed" icon={<PlusOutlined />} onClick={() => add({ label: "", value: "" })} block>
+                  Add Detail Field
+                </Button>
+              </>
+            )}
+          </Form.List>
           <Button type="primary" htmlType="submit" block>
             Save
           </Button>

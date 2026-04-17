@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import {
   CheckCircleOutlined,
@@ -7,8 +8,20 @@ import {
   TruckOutlined,
   ArrowRightOutlined,
   PhoneOutlined,
+  LeftOutlined,
+  RightOutlined,
 } from "@ant-design/icons";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Autoplay, EffectFade } from "swiper/modules";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/effect-fade";
+
 import SectionHeading from "../components/SectionHeading";
+import LeadEnquiryModal from "../components/LeadEnquiryModal";
 
 const stats = [
   { value: "24+", label: "Years of Trust" },
@@ -91,7 +104,75 @@ const itemVariants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.45 } },
 };
 
+const heroSlides = [
+  {
+    title: (
+      <>
+        Trusted Specialty <br />
+        <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-300 to-cyan-300">
+          Healthcare Solutions
+        </span>
+      </>
+    ),
+    description:
+      "We supply certified specialty medicines — Oncology, Critical Care, Anaesthesia, and more — to hospitals across Tamil Nadu with speed and reliability.",
+    image:
+      "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?q=80&w=2070&auto=format&fit=crop",
+    cta: "Browse Products",
+    ctaLink: "/products",
+  },
+  {
+    title: (
+      <>
+        Reliable & Secure <br />
+        <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-indigo-300">
+          Medical Supply Chain
+        </span>
+      </>
+    ),
+    description:
+      "Ensuring cold chain maintenance and quality assurance for life-saving drugs from approved manufacturers directly to your facility.",
+    image:
+      "https://images.unsplash.com/photo-1586528116311-ad86d7c4856b?q=80&w=2070&auto=format&fit=crop",
+    cta: "Our Services",
+    ctaLink: "/services",
+  },
+  {
+    title: (
+      <>
+        24/7 Emergency <br />
+        <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-orange-300">
+          Healthcare Support
+        </span>
+      </>
+    ),
+    description:
+      "Round-the-clock support for critical care medicines when every second counts. Dedicated to serving Madurai and beyond for 24+ years.",
+    image:
+      "https://images.unsplash.com/photo-1516549655169-df83a0774514?q=80&w=2070&auto=format&fit=crop",
+    cta: "Contact Us",
+    ctaLink: "/contact",
+  },
+];
+
 function HomePage() {
+  const [leadModalOpen, setLeadModalOpen] = useState(true);
+  const [leadSuccess, setLeadSuccess] = useState("");
+
+  useEffect(() => {
+    setLeadModalOpen(true);
+  }, []);
+
+  useEffect(() => {
+    if (!leadSuccess) return undefined;
+
+    const timer = setTimeout(() => {
+      setLeadSuccess("");
+    }, 2600);
+
+    return () => clearTimeout(timer);
+  }, [leadSuccess]);
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -100,198 +181,267 @@ function HomePage() {
       transition={{ duration: 0.3 }}
       className="space-y-20"
     >
-      {/* ── HERO ── */}
-      <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-blue-950 to-teal-900 text-white">
-        {/* decorative blobs */}
-        <div className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full bg-teal-500/20 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-blue-500/20 blur-3xl" />
-        <div className="pointer-events-none absolute right-1/3 top-1/2 h-40 w-40 rounded-full bg-cyan-400/10 blur-2xl" />
+      <LeadEnquiryModal
+        open={leadModalOpen}
+        onClose={() => setLeadModalOpen(false)}
+        onSuccess={(msg) => setLeadSuccess(msg)}
+      />
 
-        <div className="relative px-8 pb-10 pt-12 sm:px-12 sm:pt-16">
-          {/* top badge */}
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-teal-400/30 bg-teal-400/10 px-4 py-1.5">
-            <span className="h-2 w-2 animate-pulse rounded-full bg-teal-400" />
-            <span className="text-xs font-semibold uppercase tracking-widest text-teal-300">
-              Specialty Medical Agency — Madurai
-            </span>
+      {leadSuccess && (
+        <motion.div
+          initial={{ opacity: 0, y: 18, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 12, scale: 0.95 }}
+          transition={{ duration: 0.28, ease: "easeOut" }}
+          className="fixed left-1/2 top-8 z-[80] w-[92%] max-w-md -translate-x-1/2"
+        >
+          <div className="rounded-2xl border border-emerald-200 bg-white p-4 shadow-[0_20px_45px_-20px_rgba(5,150,105,0.45)] ring-1 ring-emerald-100">
+            <div className="flex items-start gap-3">
+              <span className="mt-0.5 inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">
+                <CheckCircleOutlined className="text-lg" />
+              </span>
+              <div>
+                <p className="text-sm font-semibold text-emerald-800">
+                  Enquiry Submitted Successfully
+                </p>
+                <p className="mt-1 text-sm text-slate-600">
+                  Thank you! Our team will contact you shortly.
+                </p>
+              </div>
+            </div>
           </div>
+        </motion.div>
+      )}
+      {/* ── HERO SLIDER ── */}
+      <section className="relative group overflow-hidden bg-slate-900 shadow-2xl">
+        <Swiper
+          modules={[Navigation, Pagination, Autoplay, EffectFade]}
+          effect="fade"
+          fadeEffect={{ crossFade: true }}
+          speed={1000}
+          autoplay={{ delay: 6000, disableOnInteraction: false }}
+          pagination={{ clickable: true, el: ".custom-pagination" }}
+          navigation={{
+            nextEl: ".hero-next",
+            prevEl: ".hero-prev",
+          }}
+          loop={true}
+          className="h-[calc(100vh-112px)] min-h-[500px] lg:min-h-[650px]"
+        >
+          {heroSlides.map((slide, idx) => (
+            <SwiperSlide key={idx}>
+              <div className="relative h-full w-full">
+                {/* Background Image with Overlay */}
+                <div className="absolute inset-0">
+                  <img
+                    src={slide.image}
+                    alt="Medical Background"
+                    className="h-full w-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/80 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 to-transparent" />
+                </div>
 
-          <div className="grid items-center gap-12 lg:grid-cols-2">
-            <div>
-              <h1 className="text-4xl font-extrabold leading-[1.1] tracking-tight sm:text-5xl xl:text-6xl">
-                Trusted Healthcare
-                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-teal-300 to-cyan-300">
-                  Solutions For Every
-                </span>
-                Family & Hospital
-              </h1>
-              <p className="mt-5 max-w-lg text-base leading-relaxed text-slate-300">
-                We supply certified specialty medicines — Oncology, Critical Care,
-                Anaesthesia, Vaccines, and more — to hospitals and clinics across
-                Tamil Nadu with speed and reliability.
-              </p>
+                {/* Content Container */}
+                <div className="relative h-full px-8 flex items-center sm:px-16 md:px-24">
+                  <div className="max-w-3xl">
+                    <motion.div
+                      initial={{ opacity: 0, y: 30 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.8, delay: 0.2 }}
+                    >
+                      {/* Badge */}
+                      <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-teal-400/30 bg-teal-400/10 px-3 py-1.5 sm:mb-8 sm:px-4 sm:py-2">
+                        <span className="h-2 w-2 animate-pulse rounded-full bg-teal-400 sm:h-2.5 sm:w-2.5" />
+                        <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-teal-300 sm:text-[10px]">
+                          Specialty Medical Agency — Madurai
+                        </span>
+                      </div>
 
-              <div className="mt-8 flex flex-wrap gap-3">
+                      <h1 className="text-3xl font-extrabold leading-[1.1] tracking-tight text-white mb-4 sm:text-6xl lg:text-7xl sm:mb-6">
+                        {slide.title}
+                      </h1>
+
+                      <p className="mb-8 max-w-xl text-sm leading-relaxed text-slate-300 sm:text-lg sm:mb-10">
+                        {slide.description}
+                      </p>
+
+                      <div className="flex flex-wrap gap-4">
+                        <Link
+                          to={slide.ctaLink}
+                          className="group inline-flex items-center gap-3 rounded-full bg-teal-500 px-8 py-4 text-sm font-bold text-white shadow-xl shadow-teal-500/30 transition hover:-translate-y-1 hover:bg-teal-400"
+                        >
+                          {slide.cta}
+                          <ArrowRightOutlined className="text-xs transition-transform group-hover:translate-x-1.5" />
+                        </Link>
+                        <a
+                          href="tel:+919790122512"
+                          className="inline-flex items-center gap-3 rounded-full border border-white/20 bg-white/5 px-8 py-4 text-sm font-bold text-white backdrop-blur-md transition hover:bg-white/15"
+                        >
+                          <PhoneOutlined />
+                          Call Agent
+                        </a>
+                      </div>
+                    </motion.div>
+                  </div>
+                </div>
+              </div>
+            </SwiperSlide>
+          ))}
+
+          {/* Custom Navigation */}
+          <button className="hero-prev absolute left-6 top-1/2 -translate-y-1/2 z-20 flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white [&_.anticon]:!text-white backdrop-blur-md transition opacity-0 group-hover:opacity-100 hover:bg-teal-500 hover:border-teal-500 cursor-pointer">
+            <LeftOutlined className="!text-white" />
+          </button>
+          <button className="hero-next absolute right-6 top-1/2 -translate-y-1/2 z-20 flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white backdrop-blur-md transition opacity-0 group-hover:opacity-100 hover:bg-teal-400 hover:border-teal-400 cursor-pointer">
+            <RightOutlined />
+          </button>
+
+          {/* Pagination Container */}
+          <div className="custom-pagination !absolute !bottom-10 !left-1/2 !-translate-x-1/2 !z-20 !w-auto flex gap-2" />
+        </Swiper>
+      </section>
+
+      <div className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8 space-y-20">
+        {/* ── SPECIALTIES ── */}
+        <section className="space-y-8">
+          <SectionHeading
+            centered
+            eyebrow="Our Specialties"
+            title="Wide Range of Specialty Pharmaceuticals"
+            description="From Oncology and Anaesthesia to Vaccines and HIV Antivirals — we supply the medicines that critical care demands."
+          />
+
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-50px" }}
+            className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4"
+          >
+            {specialties.map((s) => (
+              <motion.div key={s.name} variants={itemVariants}>
                 <Link
                   to="/products"
-                  className="group inline-flex items-center gap-2 rounded-full bg-teal-500 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-teal-500/30 transition hover:-translate-y-0.5 hover:bg-teal-400"
+                  className={`flex items-center gap-3 rounded-2xl border p-4 text-sm font-semibold transition cursor-pointer ${shadeMap[s.shade]}`}
                 >
-                  Browse Products
-                  <ArrowRightOutlined className="text-xs transition-transform group-hover:translate-x-1" />
+                  <span className="text-xl">{s.emoji}</span>
+                  {s.name}
                 </Link>
-                <a
-                  href="tel:+919790122512"
-                  className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-white/20"
-                >
-                  <PhoneOutlined />
-                  Call Now
-                </a>
-              </div>
-            </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </section>
 
-            {/* Stats grid */}
-            <div className="grid grid-cols-2 gap-4">
-              {stats.map((s) => (
-                <div
-                  key={s.label}
-                  className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm"
-                >
-                  <p className="text-3xl font-extrabold text-teal-300">{s.value}</p>
-                  <p className="mt-1 text-sm text-slate-400">{s.label}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+        {/* ── SERVICES ── */}
+        <section className="space-y-8">
+          <SectionHeading
+            centered
+            eyebrow="Services"
+            title="Dependable Medical Services Built Around Your Needs"
+            description="From quality assurance to after-sales care, we build trust through consistent, professional service."
+          />
 
-        {/* bottom accent strip */}
-        <div className="h-1 w-full bg-gradient-to-r from-teal-500 via-cyan-400 to-blue-500" />
-      </section>
-
-      {/* ── SPECIALTIES ── */}
-      <section className="space-y-8">
-        <SectionHeading
-          centered
-          eyebrow="Our Specialties"
-          title="Wide Range of Specialty Pharmaceuticals"
-          description="From Oncology and Anaesthesia to Vaccines and HIV Antivirals — we supply the medicines that critical care demands."
-        />
-
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-50px" }}
-          className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4"
-        >
-          {specialties.map((s) => (
-            <motion.div key={s.name} variants={itemVariants}>
-              <Link
-                to="/products"
-                className={`flex items-center gap-3 rounded-2xl border p-4 text-sm font-semibold transition cursor-pointer ${shadeMap[s.shade]}`}
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {services.map((service, i) => (
+              <motion.div
+                key={service.title}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1, duration: 0.4 }}
+                className={`rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:shadow-md border-t-4 ${service.accent}`}
               >
-                <span className="text-xl">{s.emoji}</span>
-                {s.name}
+                <div
+                  className={`mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl text-xl ${service.iconBg}`}
+                >
+                  {service.icon}
+                </div>
+                <h3 className="font-bold text-slate-900">{service.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-slate-500">
+                  {service.description}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+
+        {/* ── ABOUT PREVIEW ── */}
+        <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white">
+          <div className="pointer-events-none absolute right-0 top-0 h-80 w-80 rounded-full bg-teal-500/10 blur-3xl" />
+          <div className="grid items-center gap-10 p-8 sm:p-12 md:grid-cols-2">
+            <div className="space-y-5">
+              <p className="text-xs font-bold uppercase tracking-widest text-teal-400">
+                About Us
+              </p>
+              <h2 className="text-3xl font-extrabold leading-tight sm:text-4xl">
+                Madurai's Most Trusted Specialty Drug Supplier
+              </h2>
+              <p className="leading-relaxed text-slate-300">
+                With over two decades of experience, we are Madurai's leading
+                supplier of specialty pharmaceuticals — serving hospitals,
+                nursing homes, and clinics with authentic, licensed drugs and
+                unmatched customer support.
+              </p>
+              <ul className="space-y-2 text-sm text-slate-300">
+                {[
+                  "Licensed & Certified Distributor",
+                  "Cold Chain Maintained Products",
+                  "Narcotic Drug License Holder",
+                  "Pan-Tamil Nadu Delivery Network",
+                ].map((pt) => (
+                  <li key={pt} className="flex items-center gap-2">
+                    <CheckCircleOutlined className="text-teal-400" />
+                    {pt}
+                  </li>
+                ))}
+              </ul>
+              <Link
+                to="/about"
+                className="inline-flex items-center gap-2 rounded-full bg-teal-500 px-6 py-3 text-sm font-bold text-white transition hover:bg-teal-400"
+              >
+                Learn More <ArrowRightOutlined />
               </Link>
-            </motion.div>
-          ))}
-        </motion.div>
-      </section>
+            </div>
 
-      {/* ── SERVICES ── */}
-      <section className="space-y-8">
-        <SectionHeading
-          centered
-          eyebrow="Services"
-          title="Dependable Medical Services Built Around Your Needs"
-          description="From quality assurance to after-sales care, we build trust through consistent, professional service."
-        />
-
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {services.map((service, i) => (
-            <motion.div
-              key={service.title}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1, duration: 0.4 }}
-              className={`rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:shadow-md border-t-4 ${service.accent}`}
-            >
-              <div className={`mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl text-xl ${service.iconBg}`}>
-                {service.icon}
-              </div>
-              <h3 className="font-bold text-slate-900">{service.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-slate-500">{service.description}</p>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* ── ABOUT PREVIEW ── */}
-      <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white">
-        <div className="pointer-events-none absolute right-0 top-0 h-80 w-80 rounded-full bg-teal-500/10 blur-3xl" />
-        <div className="grid items-center gap-10 p-8 sm:p-12 md:grid-cols-2">
-          <div className="space-y-5">
-            <p className="text-xs font-bold uppercase tracking-widest text-teal-400">About Us</p>
-            <h2 className="text-3xl font-extrabold leading-tight sm:text-4xl">
-              Madurai's Most Trusted Specialty Drug Supplier
-            </h2>
-            <p className="leading-relaxed text-slate-300">
-              With over two decades of experience, we are Madurai's leading supplier of specialty
-              pharmaceuticals — serving hospitals, nursing homes, and clinics with authentic,
-              licensed drugs and unmatched customer support.
-            </p>
-            <ul className="space-y-2 text-sm text-slate-300">
-              {["Licensed & Certified Distributor", "Cold Chain Maintained Products", "Narcotic Drug License Holder", "Pan-Tamil Nadu Delivery Network"].map((pt) => (
-                <li key={pt} className="flex items-center gap-2">
-                  <CheckCircleOutlined className="text-teal-400" />
-                  {pt}
-                </li>
-              ))}
-            </ul>
-            <Link
-              to="/about"
-              className="inline-flex items-center gap-2 rounded-full bg-teal-500 px-6 py-3 text-sm font-bold text-white transition hover:bg-teal-400"
-            >
-              Learn More <ArrowRightOutlined />
-            </Link>
+            <div className="overflow-hidden rounded-2xl">
+              <img
+                src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=900&q=80"
+                alt="Medical professionals"
+                className="h-80 w-full object-cover"
+              />
+            </div>
           </div>
+        </section>
 
-          <div className="overflow-hidden rounded-2xl">
-            <img
-              src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=900&q=80"
-              alt="Medical professionals"
-              className="h-80 w-full object-cover"
-            />
+        {/* ── CTA BANNER ── */}
+        <section className="rounded-3xl border border-teal-100 bg-teal-50 p-8 sm:p-10">
+          <div className="flex flex-col items-center gap-6 text-center sm:flex-row sm:justify-between sm:text-left">
+            <div>
+              <h3 className="text-xl font-extrabold text-slate-900">
+                Need a specific specialty drug urgently?
+              </h3>
+              <p className="mt-1 text-slate-600">
+                Call us anytime — we provide 24/7 emergency support.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-3">
+              <a
+                href="tel:+919952812513"
+                className="inline-flex items-center gap-2 rounded-full bg-teal-600 px-6 py-3 text-sm font-bold text-white shadow-md transition hover:bg-teal-700"
+              >
+                <PhoneOutlined /> Emergency: +91 99528 12513
+              </a>
+              <Link
+                to="/contact"
+                className="inline-flex items-center gap-2 rounded-full border border-teal-600 px-6 py-3 text-sm font-bold text-teal-700 transition hover:bg-teal-100"
+              >
+                Contact Us
+              </Link>
+            </div>
           </div>
-        </div>
-      </section>
-
-      {/* ── CTA BANNER ── */}
-      <section className="rounded-3xl border border-teal-100 bg-teal-50 p-8 sm:p-10">
-        <div className="flex flex-col items-center gap-6 text-center sm:flex-row sm:justify-between sm:text-left">
-          <div>
-            <h3 className="text-xl font-extrabold text-slate-900">
-              Need a specific specialty drug urgently?
-            </h3>
-            <p className="mt-1 text-slate-600">Call us anytime — we provide 24/7 emergency support.</p>
-          </div>
-          <div className="flex flex-wrap gap-3">
-            <a
-              href="tel:+919952812513"
-              className="inline-flex items-center gap-2 rounded-full bg-teal-600 px-6 py-3 text-sm font-bold text-white shadow-md transition hover:bg-teal-700"
-            >
-              <PhoneOutlined /> Emergency: +91 99528 12513
-            </a>
-            <Link
-              to="/contact"
-              className="inline-flex items-center gap-2 rounded-full border border-teal-600 px-6 py-3 text-sm font-bold text-teal-700 transition hover:bg-teal-100"
-            >
-              Contact Us
-            </Link>
-          </div>
-        </div>
-      </section>
+        </section>
+      </div>
     </motion.div>
   );
 }

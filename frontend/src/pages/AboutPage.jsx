@@ -59,7 +59,8 @@ function AboutPage() {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -16 }}
       transition={{ duration: 0.35 }}
-      className="space-y-16"
+      transition={{ duration: 0.35 }}
+      className="space-y-16 mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8"
     >
       <Breadcrumbs />
       {/* ── HERO ── */}
