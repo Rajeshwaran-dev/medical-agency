@@ -22,6 +22,10 @@ import "swiper/css/effect-fade";
 
 import SectionHeading from "../components/SectionHeading";
 import LeadEnquiryModal from "../components/LeadEnquiryModal";
+import heroSlide1 from "../assets/images/hero-slide-1.jpg";
+import heroSlide2 from "../assets/images/hero-slide-2.jpg";
+import heroSlide3 from "../assets/images/hero-slide-3.jpg";
+import aboutPreviewImage from "../assets/images/about-preview.jpg";
 
 const stats = [
   { value: "24+", label: "Years of Trust" },
@@ -116,8 +120,7 @@ const heroSlides = [
     ),
     description:
       "We supply certified specialty medicines — Oncology, Critical Care, Anaesthesia, and more — to hospitals across Tamil Nadu with speed and reliability.",
-    image:
-      "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?q=80&w=2070&auto=format&fit=crop",
+    image: heroSlide1,
     cta: "Browse Products",
     ctaLink: "/products",
   },
@@ -132,8 +135,7 @@ const heroSlides = [
     ),
     description:
       "Ensuring cold chain maintenance and quality assurance for life-saving drugs from approved manufacturers directly to your facility.",
-    image:
-      "https://images.unsplash.com/photo-1586528116311-ad86d7c4856b?q=80&w=2070&auto=format&fit=crop",
+    image: heroSlide2,
     cta: "Our Services",
     ctaLink: "/services",
   },
@@ -148,8 +150,7 @@ const heroSlides = [
     ),
     description:
       "Round-the-clock support for critical care medicines when every second counts. Dedicated to serving Madurai and beyond for 24+ years.",
-    image:
-      "https://images.unsplash.com/photo-1516549655169-df83a0774514?q=80&w=2070&auto=format&fit=crop",
+    image: heroSlide3,
     cta: "Contact Us",
     ctaLink: "/contact",
   },
@@ -406,7 +407,7 @@ function HomePage() {
 
             <div className="overflow-hidden rounded-2xl">
               <img
-                src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=900&q=80"
+                src={aboutPreviewImage}
                 alt="Medical professionals"
                 className="h-80 w-full object-cover"
               />

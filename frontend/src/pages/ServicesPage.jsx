@@ -312,7 +312,7 @@ function ServiceCard({ service, index }) {
           aria-hidden
         />
 
-        <div className="relative flex items-start justify-between gap-4">
+        <div className="relative flex items-start justify-between gap-4 mb-4">
           <div
             className={`flex h-[4.25rem] w-[4.25rem] shrink-0 items-center justify-center rounded-2xl ring-2 transition duration-500 group-hover:scale-[1.06] group-hover:shadow-lg ${theme.iconShell}`}
           >
@@ -368,7 +368,7 @@ const ServicesPage = () => {
 
       <section className="relative pb-20 pt-6 sm:pt-10">
         <div className="container relative mx-auto max-w-7xl px-4">
-          <div className="relative mb-12 overflow-hidden rounded-3xl border border-white/60 bg-white/55 py-14 shadow-[0_24px_60px_-28px_rgba(15,23,42,0.2)] ring-1 ring-slate-200/60 backdrop-blur-md sm:mb-16 sm:rounded-[1.75rem] sm:py-20">
+          <div className="relative mb-12 overflow-hidden rounded-3xl border border-white/60 bg-white/55 py-6 shadow-[0_24px_60px_-28px_rgba(15,23,42,0.2)] ring-1 ring-slate-200/60 backdrop-blur-md sm:mb-16 sm:rounded-[1.75rem] sm:py-20">
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-sky-50/90 via-white/40 to-blue-50/80" />
             <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-blue-400/20 blur-3xl" />
             <div className="pointer-events-none absolute -bottom-28 -left-24 h-72 w-72 rounded-full bg-cyan-300/25 blur-3xl" />

@@ -1,0 +1,11 @@
+<svg width="900" height="650" viewBox="0 0 900 650" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="900" height="650" fill="#E2E8F0"/>
+  <rect x="200" y="120" width="500" height="330" rx="24" fill="#CBD5E1"/>
+  <rect x="245" y="165" width="410" height="170" rx="14" fill="#94A3B8"/>
+  <circle cx="320" cy="250" r="34" fill="#64748B"/>
+  <path d="M410 220H600V248H410V220ZM410 270H560V298H410V270Z" fill="#E2E8F0"/>
+  <rect x="270" y="492" width="360" height="46" rx="23" fill="#334155"/>
+  <text x="450" y="522" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#F8FAFC">
+    Medical Product
+  </text>
+</svg>

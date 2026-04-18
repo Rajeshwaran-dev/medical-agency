@@ -38,4 +38,56 @@ const getMe = asyncHandler(async (req, res) => {
   res.json({ success: true, data: req.user });
 });
 
-module.exports = { loginAdmin, getMe };
+const updateProfile = asyncHandler(async (req, res) => {
+  const { name, email, phone } = req.body;
+  const user = await User.findById(req.user._id);
+
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found");
+  }
+
+  user.name = name || user.name;
+  user.email = email || user.email;
+  user.phone = phone || user.phone;
+
+  const updatedUser = await user.save();
+
+  res.json({
+    success: true,
+    message: "Profile updated successfully",
+    data: {
+      id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      phone: updatedUser.phone,
+      role: updatedUser.role
+    }
+  });
+});
+
+const changePassword = asyncHandler(async (req, res) => {
+  const { currentPassword, newPassword } = req.body;
+  const user = await User.findById(req.user._id);
+
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found");
+  }
+
+  const isMatch = await user.matchPassword(currentPassword);
+  if (!isMatch) {
+    res.status(401);
+    throw new Error("Incorrect current password");
+  }
+
+  user.password = newPassword;
+  await user.save();
+
+  res.json({
+    success: true,
+    message: "Password changed successfully"
+  });
+});
+
+module.exports = { loginAdmin, getMe, updateProfile, changePassword };

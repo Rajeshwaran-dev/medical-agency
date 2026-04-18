@@ -3,7 +3,6 @@ import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import {
   AppstoreOutlined,
   DashboardOutlined,
-  GiftOutlined,
   LogoutOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -71,8 +70,8 @@ function AdminLayout() {
   const selectedKey = useMemo(() => {
     if (location.pathname.includes("/admin/products")) return "products";
     if (location.pathname.includes("/admin/categories")) return "categories";
-    if (location.pathname.includes("/admin/offers")) return "offers";
     if (location.pathname.includes("/admin/leads")) return "leads";
+    if (location.pathname.includes("/admin/profile")) return "profile";
     return "dashboard";
   }, [location.pathname]);
 
@@ -106,20 +105,20 @@ function AdminLayout() {
         ),
       },
       {
-        key: "offers",
-        icon: <GiftOutlined />,
-        label: (
-          <Link to="/admin/offers" onClick={closeDrawer}>
-            Offers
-          </Link>
-        ),
-      },
-      {
         key: "leads",
         icon: <TeamOutlined />,
         label: (
           <Link to="/admin/leads" onClick={closeDrawer}>
             Leads
+          </Link>
+        ),
+      },
+      {
+        key: "profile",
+        icon: <UserOutlined />,
+        label: (
+          <Link to="/admin/profile" onClick={closeDrawer}>
+            Profile
           </Link>
         ),
       },
@@ -228,6 +227,12 @@ function AdminLayout() {
                     disabled: true,
                   },
                   { type: "divider" },
+                  {
+                    key: "profile",
+                    icon: <UserOutlined />,
+                    label: "Profile",
+                    onClick: () => navigate("/admin/profile"),
+                  },
                   {
                     key: "logout",
                     icon: <LogoutOutlined />,

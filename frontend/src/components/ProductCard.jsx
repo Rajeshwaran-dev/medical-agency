@@ -1,15 +1,26 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import productPlaceholder from "../assets/images/product-placeholder.svg";
 
 function ProductCard({ product }) {
-  const discount = product.offer?.discountPercentage || 0;
-  const basePrice = Number(product.price || 0);
-  const discountedPrice = discount > 0 ? basePrice * (1 - discount / 100) : basePrice;
+  const regularPrice = Number(product.regularPrice ?? product.price ?? 0);
+  const offerPriceRaw = product.offerPrice;
+  const hasOfferPrice =
+    offerPriceRaw !== null &&
+    offerPriceRaw !== undefined &&
+    offerPriceRaw !== "" &&
+    Number(offerPriceRaw) > 0;
+  const finalPrice = hasOfferPrice ? Number(offerPriceRaw) : regularPrice;
+  const showStrikethrough = hasOfferPrice && Number(offerPriceRaw) !== regularPrice;
+  const priceDropPercent =
+    showStrikethrough && regularPrice > 0
+      ? Math.round(((regularPrice - finalPrice) / regularPrice) * 100)
+      : 0;
   const previewImage =
     (Array.isArray(product.images) && product.images.length > 0
       ? product.images[0]
       : product.image) ||
-    "https://placehold.co/600x400/e2e8f0/334155?text=Medical+Product";
+    productPlaceholder;
 
   return (
     <motion.article
@@ -24,9 +35,9 @@ function ProductCard({ product }) {
             alt={product.name}
             className="h-44 w-full object-cover"
           />
-          {discount > 0 && (
+          {priceDropPercent > 0 && (
             <span className="absolute left-2 top-2 rounded-full bg-emerald-500 px-2 py-1 text-xs font-semibold text-white">
-              {discount}% OFF
+              {priceDropPercent}% OFF
             </span>
           )}
         </div>
@@ -34,9 +45,9 @@ function ProductCard({ product }) {
         <p className="mt-1 line-clamp-2 text-sm text-slate-500">{product.description}</p>
         <div className="mt-3 flex items-center justify-between gap-3">
           <div className="flex flex-col">
-            <span className="text-lg font-bold text-blue-700">${discountedPrice.toFixed(2)}</span>
-            {discount > 0 ? (
-              <span className="text-xs text-slate-400 line-through">${basePrice.toFixed(2)}</span>
+            <span className="text-lg font-bold text-blue-700">${finalPrice.toFixed(2)}</span>
+            {showStrikethrough ? (
+              <span className="text-xs text-slate-400 line-through">${regularPrice.toFixed(2)}</span>
             ) : null}
           </div>
           <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-medium text-blue-700">

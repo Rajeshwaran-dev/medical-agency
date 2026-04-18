@@ -1,6 +1,5 @@
 const Product = require("../models/Product");
 const Category = require("../models/Category");
-const Offer = require("../models/Offer");
 const asyncHandler = require("../utils/asyncHandler");
 const { uploadImageBuffer } = require("../services/cloudinaryService");
 
@@ -26,6 +25,13 @@ const parseSpecs = (specsRaw) => {
     .filter((item) => item.label && item.value);
 };
 
+const parseNumericPrice = (value) => {
+  if (value === undefined || value === null || value === "") return null;
+  const parsed = Number(value);
+  if (!Number.isFinite(parsed) || parsed < 0) return null;
+  return parsed;
+};
+
 const normalizeProductPayload = (doc) => {
   const data = doc.toObject ? doc.toObject() : doc;
   const normalizedImages = Array.isArray(data.images) && data.images.length > 0
@@ -33,9 +39,23 @@ const normalizeProductPayload = (doc) => {
     : data.image
       ? [data.image]
       : [];
+  const regularPrice =
+    data.regularPrice !== undefined && data.regularPrice !== null
+      ? Number(data.regularPrice)
+      : Number(data.price || 0);
+  const offerPrice =
+    data.offerPrice !== undefined && data.offerPrice !== null && data.offerPrice !== ""
+      ? Number(data.offerPrice)
+      : null;
+  const hasOfferPrice = Number.isFinite(offerPrice) && offerPrice > 0;
+  const finalPrice = hasOfferPrice ? offerPrice : regularPrice;
 
   return {
     ...data,
+    regularPrice,
+    offerPrice: hasOfferPrice ? offerPrice : null,
+    finalPrice,
+    price: finalPrice,
     images: normalizedImages,
     image: data.image || normalizedImages[0] || "",
     specs: Array.isArray(data.specs) ? data.specs : []
@@ -47,19 +67,16 @@ const getProducts = asyncHandler(async (req, res) => {
   const limit = Number(req.query.limit) || 10;
   const search = req.query.search || "";
   const category = req.query.category || "";
-  const offer = req.query.offer || "";
 
   const query = {
     name: { $regex: search, $options: "i" }
   };
 
   if (category) query.category = category;
-  if (offer) query.offer = offer;
 
   const total = await Product.countDocuments(query);
   const products = await Product.find(query)
     .populate("category", "name")
-    .populate("offer", "title discountPercentage")
     .sort({ createdAt: -1 })
     .skip((page - 1) * limit)
     .limit(limit);
@@ -78,8 +95,7 @@ const getProducts = asyncHandler(async (req, res) => {
 
 const getProductById = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id)
-    .populate("category", "name")
-    .populate("offer", "title discountPercentage");
+    .populate("category", "name");
 
   if (!product) {
     res.status(404);
@@ -90,25 +106,23 @@ const getProductById = asyncHandler(async (req, res) => {
 });
 
 const createProduct = asyncHandler(async (req, res) => {
-  const { name, category, price, offer, description, specs } = req.body;
+  const { name, category, regularPrice, offerPrice, price, description, specs } = req.body;
+  const parsedRegularPrice = parseNumericPrice(regularPrice ?? price);
+  const parsedOfferPrice = parseNumericPrice(offerPrice);
 
-  if (!name || !category || price === undefined || !description) {
+  if (!name || !category || parsedRegularPrice === null || !description) {
     res.status(400);
-    throw new Error("Name, category, price and description are required");
+    throw new Error("Name, category, regular price and description are required");
+  }
+  if (parsedOfferPrice !== null && parsedOfferPrice > parsedRegularPrice) {
+    res.status(400);
+    throw new Error("Offer price cannot be greater than regular price");
   }
 
   const categoryExists = await Category.findById(category);
   if (!categoryExists) {
     res.status(400);
     throw new Error("Invalid category");
-  }
-
-  if (offer) {
-    const offerExists = await Offer.findById(offer);
-    if (!offerExists) {
-      res.status(400);
-      throw new Error("Invalid offer");
-    }
   }
 
   const uploadedImages = [];
@@ -124,8 +138,9 @@ const createProduct = asyncHandler(async (req, res) => {
   const product = await Product.create({
     name: name.trim(),
     category,
-    price,
-    offer: offer || null,
+    price: parsedRegularPrice,
+    regularPrice: parsedRegularPrice,
+    offerPrice: parsedOfferPrice,
     image: uploadedImages[0] || "",
     images: uploadedImages,
     specs: parsedSpecs,
@@ -133,8 +148,7 @@ const createProduct = asyncHandler(async (req, res) => {
   });
 
   const populated = await Product.findById(product._id)
-    .populate("category", "name")
-    .populate("offer", "title discountPercentage");
+    .populate("category", "name");
 
   res.status(201).json({ success: true, data: normalizeProductPayload(populated) });
 });
@@ -146,7 +160,9 @@ const updateProduct = asyncHandler(async (req, res) => {
     throw new Error("Product not found");
   }
 
-  const { name, category, price, offer, description, specs } = req.body;
+  const { name, category, regularPrice, offerPrice, price, description, specs } = req.body;
+  const parsedRegularPrice = parseNumericPrice(regularPrice ?? price);
+  const parsedOfferPrice = parseNumericPrice(offerPrice);
 
   if (category) {
     const categoryExists = await Category.findById(category);
@@ -156,12 +172,9 @@ const updateProduct = asyncHandler(async (req, res) => {
     }
   }
 
-  if (offer) {
-    const offerExists = await Offer.findById(offer);
-    if (!offerExists) {
-      res.status(400);
-      throw new Error("Invalid offer");
-    }
+  if (parsedRegularPrice !== null && parsedOfferPrice !== null && parsedOfferPrice > parsedRegularPrice) {
+    res.status(400);
+    throw new Error("Offer price cannot be greater than regular price");
   }
 
   if (Array.isArray(req.files) && req.files.length > 0) {
@@ -180,8 +193,13 @@ const updateProduct = asyncHandler(async (req, res) => {
 
   product.name = name?.trim() || product.name;
   product.category = category || product.category;
-  product.price = price ?? product.price;
-  product.offer = offer !== undefined ? offer || null : product.offer;
+  if (parsedRegularPrice !== null) {
+    product.regularPrice = parsedRegularPrice;
+    product.price = parsedRegularPrice;
+  }
+  if (offerPrice !== undefined) {
+    product.offerPrice = parsedOfferPrice;
+  }
   product.description = description?.trim() || product.description;
 
   if ((!product.images || product.images.length === 0) && product.image) {
@@ -194,8 +212,7 @@ const updateProduct = asyncHandler(async (req, res) => {
   await product.save();
 
   const populated = await Product.findById(product._id)
-    .populate("category", "name")
-    .populate("offer", "title discountPercentage");
+    .populate("category", "name");
 
   res.json({ success: true, data: normalizeProductPayload(populated) });
 });

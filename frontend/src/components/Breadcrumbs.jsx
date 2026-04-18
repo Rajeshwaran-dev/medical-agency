@@ -21,7 +21,7 @@ const Breadcrumbs = () => {
   const fullLabel = breadcrumbLabels[currentPath] || currentPath.charAt(0).toUpperCase() + currentPath.slice(1);
 
   return (
-    <div className="relative mb-12 flex flex-col items-center">
+    <div className="pt-8 relative mb-12 flex flex-col items-center">
       
       {/* ──────────────────────────────────────
           MODERN MEDICAL WAVE BACKGROUND
@@ -105,7 +105,7 @@ const Breadcrumbs = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.2 }}
-        className="relative mt-12"
+        className="relative mt-6"
       >
         {/* Connecting Line with Pulse Effect */}
         <div className="absolute left-0 right-0 top-1/2 h-0.5 -translate-y-1/2 bg-gradient-to-r from-transparent via-blue-300/50 to-transparent">

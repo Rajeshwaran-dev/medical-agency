@@ -60,8 +60,8 @@ const contactCards = [
   {
     icon: <EnvironmentOutlined />,
     title: "Address",
-    value: "Shenoy Nagar, Madurai",
-    sub: "No.24, Vaithiyanathariyar Road, Goripalayamm – 625020",
+    value: "No 24, ground floor",
+    sub: "vaithiyanatharlyar Road, shenoy nagar goripalayam madurai - 625020",
     href: "https://maps.google.com/?q=Shenoy+Nagar+Goripalayam+Madurai",
     color: "bg-green-50 text-green-600 border-green-100",
     accent: "border-t-green-500",
@@ -307,11 +307,9 @@ function ContactPage() {
                     Madurai Life Care Drugs
                   </p>
                   <p className="text-slate-500 mt-0.5 leading-relaxed">
-                    No.24, Ground Floor, Vaithiyanathariyar Road,
+                    No 24, ground floor, vaithiyanatharlyar Road,
                     <br />
-                    Shenoy Nagar, Goripalayamm,
-                    <br />
-                    Madurai – 625020
+                    shenoy nagar goripalayam madurai - 625020
                   </p>
                 </div>
               </div>

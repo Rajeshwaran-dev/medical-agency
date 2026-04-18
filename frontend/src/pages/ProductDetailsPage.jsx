@@ -12,6 +12,7 @@ import ProductCard from "../components/ProductCard";
 import LoadingSkeleton from "../components/LoadingSkeleton";
 import { publicApi } from "../services/api";
 import LeadEnquiryModal from "../components/LeadEnquiryModal";
+import productPlaceholder from "../assets/images/product-placeholder.svg";
 
 function ProductDetailsPage() {
   const { id } = useParams();
@@ -55,13 +56,23 @@ function ProductDetailsPage() {
     loadProductData();
   }, [id]);
 
-  const discount = product?.offer?.discountPercentage || 0;
-  const basePrice = Number(product?.price || 0);
-  const discountedPrice = discount > 0 ? basePrice * (1 - discount / 100) : basePrice;
+  const regularPrice = Number(product?.regularPrice ?? product?.price ?? 0);
+  const offerPriceRaw = product?.offerPrice;
+  const hasOfferPrice =
+    offerPriceRaw !== null &&
+    offerPriceRaw !== undefined &&
+    offerPriceRaw !== "" &&
+    Number(offerPriceRaw) > 0;
+  const finalPrice = hasOfferPrice ? Number(offerPriceRaw) : regularPrice;
+  const showStrikethrough = hasOfferPrice && Number(offerPriceRaw) !== regularPrice;
+  const priceDropPercent =
+    showStrikethrough && regularPrice > 0
+      ? Math.round(((regularPrice - finalPrice) / regularPrice) * 100)
+      : 0;
   const galleryImages = (() => {
     if (Array.isArray(product?.images) && product.images.length > 0) return product.images;
     if (product?.image) return [product.image];
-    return ["https://placehold.co/900x650/e2e8f0/334155?text=Medical+Product"];
+    return [productPlaceholder];
   })();
   const activeImage = galleryImages[activeImageIndex] || galleryImages[0];
   const specs = Array.isArray(product?.specs)
@@ -123,7 +134,7 @@ function ProductDetailsPage() {
       transition={{ duration: 0.25 }}
       className="mx-auto max-w-7xl space-y-8 px-4 pb-12 sm:px-6 lg:px-8"
     >
-      <div className="flex flex-wrap items-center justify-between gap-2">
+      <div className="flex flex-wrap items-center justify-between gap-2 pt-6">
         <Link
           to="/products"
           className="inline-flex items-center gap-1.5 rounded-full border border-slate-200/90 bg-white px-3 py-1.5 text-[13px] font-semibold text-slate-600 shadow-sm transition hover:border-slate-300 hover:bg-slate-50"
@@ -197,9 +208,9 @@ function ProductDetailsPage() {
               <span className="rounded-md bg-slate-100 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-slate-600">
                 {product.category?.name || "General"}
               </span>
-              {discount > 0 && (
+              {priceDropPercent > 0 && (
                 <span className="rounded-md bg-emerald-50 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-700">
-                  {discount}% off
+                  {priceDropPercent}% off
                 </span>
               )}
             </div>
@@ -222,16 +233,17 @@ function ProductDetailsPage() {
             <div className="mt-3 rounded-xl border border-slate-200 bg-slate-50/80 p-4">
               <span className="text-xs font-medium text-slate-500">Your price</span>
               <div className="mt-0.5 flex flex-wrap items-baseline gap-2">
-                <span className="text-2xl font-bold text-teal-700 sm:text-[1.65rem]">${discountedPrice.toFixed(2)}</span>
-                {discount > 0 ? (
-                  <span className="text-sm text-slate-400 line-through">${basePrice.toFixed(2)}</span>
+                <span className="text-2xl font-bold text-teal-700 sm:text-[1.65rem]">${finalPrice.toFixed(2)}</span>
+                {showStrikethrough ? (
+                  <span className="text-sm text-slate-400 line-through">${regularPrice.toFixed(2)}</span>
                 ) : null}
               </div>
-              {product.offer?.title && (
+              {showStrikethrough && (
                 <div className="mt-3 flex items-center gap-2 border-t border-slate-200/70 pt-3 text-xs text-slate-600">
                   <TagOutlined className="text-teal-600" />
                   <span>
-                    Offer: <span className="font-medium text-slate-800">{product.offer.title}</span>
+                    Offer price applied:{" "}
+                    <span className="font-medium text-slate-800">${finalPrice.toFixed(2)}</span>
                   </span>
                 </div>
               )}

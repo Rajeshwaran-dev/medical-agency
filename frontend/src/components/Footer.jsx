@@ -23,7 +23,7 @@ function Footer() {
 
       <div className="relative mx-auto max-w-7xl">
         <div className="rounded-[30px] border border-white/10 bg-white/[0.05] p-6 shadow-[0_22px_70px_rgba(2,6,23,0.5)] backdrop-blur-xl sm:p-10">
-          <div className="grid gap-10 md:grid-cols-2 xl:grid-cols-4">
+          <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-[1.15fr_0.75fr_1fr_1.1fr] xl:gap-6">
             <div className="space-y-4">
               <div className="flex items-center gap-3">
                 <img
@@ -47,7 +47,7 @@ function Footer() {
               </div>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-4 xl:pr-3">
               <h4 className="text-xs font-semibold uppercase tracking-[0.22em] text-emerald-300">Explore</h4>
               <div className="space-y-2.5">
                 {exploreLinks.map((item) => (
@@ -62,12 +62,12 @@ function Footer() {
               </div>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-4 xl:-ml-2">
               <h4 className="text-xs font-semibold uppercase tracking-[0.22em] text-emerald-300">Location</h4>
               <div className="overflow-hidden rounded-2xl border border-white/15 bg-slate-950/40 p-2">
                 <iframe
                   title="MediAgency location"
-                  src="https://maps.google.com/maps?q=Medical%20District&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                  src="https://maps.google.com/maps?q=No%2024%2C%20ground%20floor%2C%20vaithiyanatharlyar%20Road%2C%20shenoy%20nagar%20goripalayam%20madurai%20-%20625020&t=&z=15&ie=UTF8&iwloc=&output=embed"
                   className="h-44 w-full rounded-xl"
                   loading="lazy"
                 />
@@ -79,7 +79,7 @@ function Footer() {
               <ul className="space-y-3 text-base text-slate-200">
                 <li className="flex items-start gap-2 leading-6">
                   <EnvironmentOutlined className="mt-1 text-emerald-300" />
-                  24 Health Avenue, Medical District
+                  No 24, ground floor, vaithiyanatharlyar Road, shenoy nagar goripalayam madurai - 625020
                 </li>
                 <li className="flex items-start gap-2">
                   <PhoneOutlined className="mt-1 text-emerald-300" />

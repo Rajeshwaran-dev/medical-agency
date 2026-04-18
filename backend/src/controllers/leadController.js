@@ -43,8 +43,7 @@ const createLeadFromWebsite = asyncHandler(async (req, res) => {
 
   if (productId) {
     const productDoc = await Product.findById(productId)
-      .populate("category", "name")
-      .populate("offer", "title discountPercentage");
+      .populate("category", "name");
     if (!productDoc) {
       res.status(400);
       throw new Error("Invalid product for enquiry");

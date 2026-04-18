@@ -20,7 +20,6 @@ import {
   Select,
   Space,
   Table,
-  Tag,
   Upload
 } from "antd";
 import toast from "react-hot-toast";
@@ -29,10 +28,10 @@ import { adminApi } from "../services/api";
 function ProductsPage() {
   const [items, setItems] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [offers, setOffers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
   const [form] = Form.useForm();
   const [imageFiles, setImageFiles] = useState([]);
   const [previewImages, setPreviewImages] = useState([]);
@@ -42,9 +41,8 @@ function ProductsPage() {
   const [search, setSearch] = useState("");
 
   const fetchMeta = async () => {
-    const [catRes, offerRes] = await Promise.all([adminApi.get("/categories"), adminApi.get("/offers")]);
+    const catRes = await adminApi.get("/categories");
     setCategories(catRes.data.data || []);
-    setOffers(offerRes.data.data || []);
   };
 
   const fetchItems = async (nextPage = page, query = search) => {
@@ -82,15 +80,27 @@ function ProductsPage() {
   };
 
   const submit = async (values) => {
+    const regularPrice = Number(values.regularPrice ?? 0);
+    const offerPrice =
+      values.offerPrice === undefined || values.offerPrice === null || values.offerPrice === ""
+        ? null
+        : Number(values.offerPrice);
+
+    if (offerPrice !== null && offerPrice > regularPrice) {
+      toast.error("Offer Price cannot be greater than Regular Price");
+      return;
+    }
+
     const formData = new FormData();
     formData.append("name", values.name ?? "");
     formData.append("category", values.category ?? "");
-    formData.append("price", values.price ?? "");
-    formData.append("offer", values.offer ?? "");
+    formData.append("regularPrice", values.regularPrice ?? "");
+    formData.append("offerPrice", offerPrice ?? "");
     formData.append("description", values.description ?? "");
     formData.append("specs", JSON.stringify(values.specs || []));
     imageFiles.forEach((file) => formData.append("images", file));
 
+    setSubmitting(true);
     try {
       if (editing) await adminApi.put(`/products/${editing._id}`, formData);
       else await adminApi.post("/products", formData);
@@ -101,6 +111,8 @@ function ProductsPage() {
       fetchItems(page, search);
     } catch (error) {
       toast.error(error?.response?.data?.message || "Save failed");
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -172,14 +184,16 @@ function ProductsPage() {
               )
           },
           {
-            title: "Price",
-            dataIndex: "price",
-            render: (value) => `$${Number(value).toFixed(2)}`
+            title: "Regular Price",
+            render: (_, r) => `$${Number(r.regularPrice ?? r.price ?? 0).toFixed(2)}`
           },
           {
-            title: "Offer",
-            render: (_, r) =>
-              r.offer ? <Tag color="green">{r.offer.title}</Tag> : <Tag color="default">None</Tag>
+            title: "Offer Price",
+            render: (_, r) => {
+              const value = r.offerPrice;
+              if (value === null || value === undefined || value === "") return "-";
+              return `$${Number(value).toFixed(2)}`;
+            }
           },
           {
             title: "Action",
@@ -200,8 +214,8 @@ function ProductsPage() {
                     form.setFieldsValue({
                       name: record.name,
                       category: record.category?._id,
-                      price: record.price,
-                      offer: record.offer?._id,
+                      regularPrice: record.regularPrice ?? record.price,
+                      offerPrice: record.offerPrice ?? null,
                       description: record.description,
                       specs:
                         Array.isArray(record.specs) && record.specs.length > 0
@@ -248,11 +262,29 @@ function ProductsPage() {
           <Form.Item name="category" label="Category" rules={[{ required: true }]}>
             <Select options={categories.map((c) => ({ value: c._id, label: c.name }))} />
           </Form.Item>
-          <Form.Item name="price" label="Price" rules={[{ required: true }]}>
+          <Form.Item name="regularPrice" label="Regular Price" rules={[{ required: true }]}>
             <InputNumber min={0} style={{ width: "100%" }} />
           </Form.Item>
-          <Form.Item name="offer" label="Offer">
-            <Select allowClear options={offers.map((o) => ({ value: o._id, label: o.title }))} />
+          <Form.Item
+            name="offerPrice"
+            label="Offer Price"
+            dependencies={["regularPrice"]}
+            rules={[
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (value === undefined || value === null || value === "") {
+                    return Promise.resolve();
+                  }
+                  const regularPrice = Number(getFieldValue("regularPrice"));
+                  if (Number(value) > regularPrice) {
+                    return Promise.reject(new Error("Offer Price cannot be greater than Regular Price"));
+                  }
+                  return Promise.resolve();
+                }
+              })
+            ]}
+          >
+            <InputNumber min={0} style={{ width: "100%" }} />
           </Form.Item>
           <Form.Item name="description" label="Description" rules={[{ required: true }]}>
             <Input.TextArea rows={3} />
@@ -346,7 +378,7 @@ function ProductsPage() {
               </>
             )}
           </Form.List>
-          <Button type="primary" htmlType="submit" block>
+          <Button type="primary" htmlType="submit" block loading={submitting}>
             Save
           </Button>
         </Form>

@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import {
   AppstoreOutlined,
-  GiftOutlined,
   TagsOutlined,
 } from "@ant-design/icons";
 import { Card, Col, Empty, Row, Spin, Table, Tag } from "antd";
@@ -53,13 +52,6 @@ function DashboardPage() {
       gradient: "linear-gradient(135deg, #0d9d9d 0%, #44d2c7 100%)",
     },
     {
-      label: "Total Offers",
-      value: stats.totalOffers,
-      color: "#52c41a",
-      icon: <GiftOutlined style={{ fontSize: 22 }} />,
-      gradient: "linear-gradient(135deg, #3ca314 0%, #7fd63e 100%)",
-    },
-    {
       label: "Total Leads",
       value: stats.totalLeads,
       color: "#fa8c16",
@@ -71,7 +63,6 @@ function DashboardPage() {
   const maxCount = Math.max(
     stats.totalProducts,
     stats.totalCategories,
-    stats.totalOffers,
     stats.totalLeads,
     1,
   );
@@ -94,28 +85,19 @@ function DashboardPage() {
       value: stats.totalCategories,
       color: "#13c2c2",
     },
-    {
-      key: "offers",
-      label: "Offers",
-      value: stats.totalOffers,
-      color: "#52c41a",
-    },
     { key: "leads", label: "Leads", value: stats.totalLeads, color: "#fa8c16" },
   ];
 
   const totalCount =
     stats.totalProducts +
     stats.totalCategories +
-    stats.totalOffers +
     stats.totalLeads;
   const sectionGap = 20;
   const t = Math.max(totalCount, 1);
   const angleProducts = (stats.totalProducts / t) * 360;
   const angleCategories = (stats.totalCategories / t) * 360;
-  const angleOffers = (stats.totalOffers / t) * 360;
   const a1 = angleProducts;
   const a2 = a1 + angleCategories;
-  const a3 = a2 + angleOffers;
 
   return (
     <div
@@ -159,7 +141,7 @@ function DashboardPage() {
               Medical Agency Insights
             </h2>
             <p style={{ margin: "6px 0 0", color: "rgba(255,255,255,0.85)" }}>
-              Real-time summary of products, categories, and offers.
+              Real-time summary of products, categories, and leads.
             </p>
           </div>
           <div
@@ -294,7 +276,6 @@ function DashboardPage() {
             styles={{ body: { padding: "14px 18px 18px" } }}
           >
             <div style={{ marginBottom: 10 }}>
-              <Tag color="green">Offers Posted: {stats.totalOffers}</Tag>
               <Tag color="blue">Products Created: {stats.totalProducts}</Tag>
             </div>
             {chartItems.map((item) => {
@@ -374,8 +355,7 @@ function DashboardPage() {
                   background: `conic-gradient(
                     #1677ff 0deg ${a1}deg,
                     #13c2c2 ${a1}deg ${a2}deg,
-                    #52c41a ${a2}deg ${a3}deg,
-                    #fa8c16 ${a3}deg 360deg
+                    #fa8c16 ${a2}deg 360deg
                   )`,
                   position: "relative",
                   marginInline: "auto",
@@ -472,7 +452,8 @@ function DashboardPage() {
             },
             {
               title: "Price",
-              render: (_, row) => `$${Number(row.price || 0).toFixed(2)}`,
+              render: (_, row) =>
+                `$${Number(row.offerPrice ?? row.regularPrice ?? row.price ?? 0).toFixed(2)}`,
             },
             {
               title: "Added At",

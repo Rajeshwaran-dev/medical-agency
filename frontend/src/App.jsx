@@ -1,4 +1,5 @@
-import { Navigate, Outlet, Route, Routes } from "react-router-dom";
+import { useEffect } from "react";
+import { Navigate, Outlet, Route, Routes, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import BackToTopButton from "./components/BackToTopButton";
@@ -17,8 +18,18 @@ import LoginPage from "./admin/pages/LoginPage";
 import DashboardPage from "./admin/pages/DashboardPage";
 import AdminProductsPage from "./admin/pages/ProductsPage";
 import CategoriesPage from "./admin/pages/CategoriesPage";
-import OffersPage from "./admin/pages/OffersPage";
 import LeadsPage from "./admin/pages/LeadsPage";
+import ProfilePage from "./admin/pages/ProfilePage";
+
+function ScrollToTopOnRouteChange() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, [pathname]);
+
+  return null;
+}
 
 function WebsiteLayout() {
   return (
@@ -36,6 +47,7 @@ function WebsiteLayout() {
 function App() {
   return (
     <AuthProvider>
+      <ScrollToTopOnRouteChange />
       <Routes>
         <Route path="/" element={<WebsiteLayout />}>
           <Route index element={<HomePage />} />
@@ -58,8 +70,8 @@ function App() {
           <Route index element={<DashboardPage />} />
           <Route path="products" element={<AdminProductsPage />} />
           <Route path="categories" element={<CategoriesPage />} />
-          <Route path="offers" element={<OffersPage />} />
           <Route path="leads" element={<LeadsPage />} />
+          <Route path="profile" element={<ProfilePage />} />
         </Route>
         <Route
           path="/admin/*"

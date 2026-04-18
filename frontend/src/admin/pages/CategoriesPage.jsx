@@ -10,6 +10,7 @@ function CategoriesPage() {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
   const [form] = Form.useForm();
   const [search, setSearch] = useState("");
 
@@ -33,6 +34,7 @@ function CategoriesPage() {
   );
 
   const submit = async (values) => {
+    setSubmitting(true);
     try {
       if (editing) await adminApi.put(`/categories/${editing._id}`, values);
       else await adminApi.post("/categories", values);
@@ -43,6 +45,8 @@ function CategoriesPage() {
       fetchItems();
     } catch (error) {
       toast.error(error?.response?.data?.message || "Save failed");
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -112,7 +116,7 @@ function CategoriesPage() {
           <Form.Item name="name" label="Name" rules={[{ required: true }]}>
             <Input />
           </Form.Item>
-          <Button type="primary" htmlType="submit" block>
+          <Button type="primary" htmlType="submit" block loading={submitting}>
             Save
           </Button>
         </Form>

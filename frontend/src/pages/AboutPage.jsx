@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { CheckCircleOutlined, SafetyCertificateOutlined, TruckOutlined, StarOutlined } from "@ant-design/icons";
 import SectionHeading from "../components/SectionHeading";
 import Breadcrumbs from "../components/Breadcrumbs";
+import aboutTeamImage from "../assets/images/about-team.jpg";
 
 const specialtyRanges = [
   {
@@ -92,7 +93,7 @@ function AboutPage() {
       <section className="grid gap-10 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-10 md:grid-cols-2">
         <div className="overflow-hidden rounded-2xl">
           <img
-            src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=900&q=80"
+            src={aboutTeamImage}
             alt="Healthcare team at Madurai Life Care Drugs"
             className="h-full min-h-72 w-full rounded-2xl object-cover"
           />
@@ -203,7 +204,7 @@ function AboutPage() {
               on critical, specialty, and life-saving medicines.
             </p>
             <p className="mt-3 text-slate-400 text-sm">
-              📍 No.24, Ground Floor, Vaithiyanathariyar Road, Shenoy Nagar, Madurai – 625020
+              📍 No 24, ground floor, vaithiyanatharlyar Road, shenoy nagar goripalayam madurai - 625020
             </p>
           </div>
           <div className="rounded-2xl border border-white/10 bg-white/5 p-6 space-y-3">

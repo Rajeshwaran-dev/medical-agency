@@ -85,7 +85,7 @@ function LoginPage() {
               Welcome Admin
             </Typography.Title>
             <Typography.Text type="secondary" style={{ fontSize: 15 }}>
-              Sign in to manage products, categories, and offers.
+              Sign in to manage products, categories, and leads.
             </Typography.Text>
           </div>
         </div>
