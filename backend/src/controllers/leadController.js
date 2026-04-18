@@ -2,6 +2,30 @@ const Lead = require("../models/Lead");
 const Product = require("../models/Product");
 const asyncHandler = require("../utils/asyncHandler");
 
+/** Plain object + merge live product image/name when productId is populated */
+function normalizeLeadPayload(lead) {
+  const plain = lead.toObject ? lead.toObject() : { ...lead };
+  const populated = plain.product?.productId;
+  if (populated && typeof populated === "object" && populated._id) {
+    const fromProduct =
+      (Array.isArray(populated.images) && populated.images.length > 0
+        ? populated.images[0]
+        : "") ||
+      populated.image ||
+      "";
+    const embeddedImg = (plain.product?.image && String(plain.product.image).trim()) || "";
+    return {
+      ...plain,
+      product: {
+        productId: populated._id,
+        name: plain.product?.name || populated.name || "",
+        image: embeddedImg || fromProduct || "",
+      },
+    };
+  }
+  return plain;
+}
+
 const createLeadFromWebsite = asyncHandler(async (req, res) => {
   const { name, email, phone, organization, subject, message, productId } = req.body;
 
@@ -84,19 +108,25 @@ const createLeadManually = asyncHandler(async (req, res) => {
 });
 
 const getLeads = asyncHandler(async (req, res) => {
-  const leads = await Lead.find().sort({ createdAt: -1 });
-  res.json({ success: true, data: leads });
+  const leads = await Lead.find()
+    .sort({ createdAt: -1 })
+    .populate({ path: "product.productId", select: "name image images" });
+  const data = leads.map((doc) => normalizeLeadPayload(doc));
+  res.json({ success: true, data });
 });
 
 const getLeadById = asyncHandler(async (req, res) => {
-  const lead = await Lead.findById(req.params.id);
+  const lead = await Lead.findById(req.params.id).populate({
+    path: "product.productId",
+    select: "name image images",
+  });
 
   if (!lead) {
     res.status(404);
     throw new Error("Lead not found");
   }
 
-  res.json({ success: true, data: lead });
+  res.json({ success: true, data: normalizeLeadPayload(lead) });
 });
 
 const updateLead = asyncHandler(async (req, res) => {

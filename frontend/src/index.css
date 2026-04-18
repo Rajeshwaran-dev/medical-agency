@@ -9,8 +9,27 @@ body {
   font-size: 18px;
 }
 
+@media (max-width: 640px) {
+  body {
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+  }
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-family: "Geom", sans-serif;
+}
+
+@media (max-width: 640px) {
+  h1 {
+    font-size: clamp(1.5rem, 5vw + 0.5rem, 2.25rem);
+  }
+  h2 {
+    font-size: clamp(1.25rem, 4vw + 0.35rem, 1.75rem);
+  }
+  h3 {
+    font-size: clamp(1.1rem, 3vw + 0.25rem, 1.4rem);
+  }
 }
 
 .admin-dashboard,
@@ -145,4 +164,35 @@ h1, h2, h3, h4, h5, h6 {
 .ant-modal-body {
   overflow-x: hidden !important;
   max-width: 100%;
+}
+
+@media (max-width: 640px) {
+  .ant-modal-root .ant-modal {
+    max-width: calc(100vw - 16px) !important;
+    margin: 8px auto !important;
+  }
+  .ant-modal-root .ant-modal-content {
+    max-height: calc(100dvh - 16px);
+    display: flex;
+    flex-direction: column;
+  }
+  .ant-modal-root .ant-modal-body {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto !important;
+  }
+}
+
+/* Admin mobile drawer — visible close control on dark header */
+.admin-mobile-drawer .ant-drawer-close {
+  color: rgba(255, 255, 255, 0.88) !important;
+}
+.admin-mobile-drawer .ant-drawer-close:hover {
+  color: #fff !important;
+}
+
+@media (max-width: 991px) {
+  .admin-dashboard .ant-card-head-title {
+    font-size: 15px !important;
+  }
 }

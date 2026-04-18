@@ -231,7 +231,15 @@ function ProductsPage() {
         }}
         footer={null}
         centered
-        styles={{ body: { height: "68vh", overflowY: "auto", paddingRight: 8 } }}
+        width="min(720px, calc(100vw - 16px))"
+        styles={{
+          content: { maxWidth: "calc(100vw - 8px)" },
+          body: {
+            maxHeight: "min(85vh, calc(100dvh - 120px))",
+            overflowY: "auto",
+            paddingRight: 8,
+          },
+        }}
       >
         <Form layout="vertical" form={form} onFinish={submit}>
           <Form.Item name="name" label="Name" rules={[{ required: true }]}>
@@ -311,13 +319,7 @@ function ProductsPage() {
                 {fields.map((field) => (
                   <div
                     key={field.key}
-                    style={{
-                      display: "grid",
-                      gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr) auto",
-                      gap: 8,
-                      marginBottom: 8,
-                      alignItems: "start"
-                    }}
+                    className="mb-2 grid grid-cols-1 items-start gap-2 sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto] sm:gap-2"
                   >
                     <Form.Item
                       {...field}
@@ -338,7 +340,7 @@ function ProductsPage() {
                     <Button danger icon={<DeleteOutlined />} onClick={() => removeSpec(field.name)} />
                   </div>
                 ))}
-                <Button type="dashed" icon={<PlusOutlined />} onClick={() => add({ label: "", value: "" })} block>
+                <Button style={{ marginTop: 8, marginBottom: 8 }} type="dashed" icon={<PlusOutlined />} onClick={() => add({ label: "", value: "" })} block>
                   Add Detail Field
                 </Button>
               </>
@@ -354,17 +356,24 @@ function ProductsPage() {
         title="Image Preview"
         footer={null}
         onCancel={() => setViewer({ open: false, src: "" })}
-        width={720}
+        width="min(720px, calc(100vw - 16px))"
         centered
         zIndex={2100}
-        styles={{ body: { height: "68vh", overflowY: "auto", display: "grid", placeItems: "center" } }}
+        styles={{
+          body: {
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: 16,
+          },
+        }}
         destroyOnClose
       >
         {viewer.src ? (
           <img
             src={viewer.src}
             alt="Preview"
-            style={{ width: "100%", maxHeight: "62vh", objectFit: "contain" }}
+            style={{ width: "100%", maxHeight: "min(80vh, 640px)", objectFit: "contain" }}
           />
         ) : null}
       </Modal>

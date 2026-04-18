@@ -28,7 +28,7 @@ function LoginPage() {
         minHeight: "100vh",
         display: "grid",
         placeItems: "center",
-        padding: 20,
+        padding: "clamp(12px, 4vw, 20px)",
         background:
           "radial-gradient(circle at 15% 15%, rgba(34, 142, 255, 0.35), transparent 35%), radial-gradient(circle at 85% 20%, rgba(44, 208, 190, 0.35), transparent 35%), linear-gradient(135deg, #0b1f4d 0%, #0f3b82 45%, #1e66d0 100%)"
       }}

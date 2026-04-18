@@ -29,7 +29,7 @@ function Footer() {
                 <img
                   src="/logo.png"
                   alt="MediAgency logo"
-                  className="h-24 w-24 rounded-xl object-contain"
+                  className="h-16 w-16 rounded-lg object-contain sm:h-24 sm:w-24 sm:rounded-xl"
                 />
               </div>
               <p className="max-w-xs text-base leading-7 text-slate-300/95">
@@ -81,23 +81,28 @@ function Footer() {
                   <EnvironmentOutlined className="mt-1 text-emerald-300" />
                   24 Health Avenue, Medical District
                 </li>
-                <li className="flex items-center gap-2">
-                  <PhoneOutlined className="text-emerald-300" />
-                  <a href="tel:+15551234567" className="transition hover:text-emerald-300">
-                    +1 (555) 123-4567
-                  </a>
+                <li className="flex items-start gap-2">
+                  <PhoneOutlined className="mt-1 text-emerald-300" />
+                  <div className="flex flex-col gap-1">
+                    <a href="tel:+919790122512" className="transition hover:text-emerald-300">
+                      +91 97901 22512
+                    </a>
+                    <a href="tel:+919566305951" className="transition hover:text-emerald-300">
+                      +91 95663 05951
+                    </a>
+                  </div>
                 </li>
                 <li className="flex items-center gap-2">
                   <MailOutlined className="text-emerald-300" />
-                  <a href="mailto:support@mediagency.com" className="transition hover:text-emerald-300">
-                    support@mediagency.com
+                  <a href="mailto:madurailifecaredrugs@gmail.com" className="transition hover:text-emerald-300">
+                    madurailifecaredrugs@gmail.com
                   </a>
                 </li>
               </ul>
               <div className="flex items-center gap-3 pt-2">
                 <a
-                  href="tel:+15551234567"
-                  aria-label="Whatsapp"
+                  href="tel:+919790122512"
+                  aria-label="Call us"
                   className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-emerald-300/50 bg-emerald-400/15 text-emerald-200 shadow-[0_0_20px_rgba(74,222,128,0.3)] transition hover:-translate-y-0.5 hover:bg-emerald-400/25"
                 >
                   <PhoneOutlined />

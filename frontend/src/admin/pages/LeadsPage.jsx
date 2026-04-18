@@ -7,6 +7,7 @@ import {
   Descriptions,
   Empty,
   Form,
+  Image,
   Input,
   Modal,
   Popconfirm,
@@ -56,9 +57,25 @@ function LeadsPage() {
 
   const openViewModal = async (lead) => {
     setModalMode("view");
+    setSelectedLead(lead);
     setModalOpen(true);
-    const res = await adminApi.get(`/leads/${lead._id}`);
-    setSelectedLead(res.data.data);
+    try {
+      const res = await adminApi.get(`/leads/${lead._id}`);
+      const server = res.data.data;
+      const rowImg = lead?.product?.image && String(lead.product.image).trim();
+      const serverImg = server?.product?.image && String(server.product.image).trim();
+      setSelectedLead({
+        ...server,
+        product: server?.product
+          ? {
+              ...server.product,
+              image: serverImg || rowImg || "",
+            }
+          : server?.product,
+      });
+    } catch {
+      message.error("Could not load lead details");
+    }
   };
 
   const openEditModal = async (lead) => {
@@ -130,22 +147,37 @@ function LeadsPage() {
     {
       title: "Product",
       key: "product",
-      render: (_, row) =>
-        row.source === "Product" && row.product?.name ? (
-          <Space>
-            <Avatar
-              shape="square"
-              size={34}
-              src={row.product?.image || undefined}
-              style={{ backgroundColor: "#f1f5f9" }}
-            >
-              {(row.product?.name || "P")[0]}
-            </Avatar>
-            <span>{row.product?.name}</span>
+      width: 220,
+      render: (_, row) => {
+        if (row.source !== "Product" || !row.product?.name) return "-";
+        const img = row.product?.image;
+        return (
+          <Space align="center" size={10}>
+            {img ? (
+              <Image
+                src={img}
+                alt={row.product.name}
+                width={40}
+                height={40}
+                style={{
+                  objectFit: "cover",
+                  borderRadius: 8,
+                  flexShrink: 0,
+                  border: "1px solid #e8edf5",
+                }}
+                preview={{
+                  mask: "View image",
+                }}
+              />
+            ) : (
+              <Avatar shape="square" size={40} style={{ backgroundColor: "#f1f5f9", color: "#64748b" }}>
+                {(row.product?.name || "P")[0]}
+              </Avatar>
+            )}
+            <span style={{ wordBreak: "break-word" }}>{row.product.name}</span>
           </Space>
-        ) : (
-          "-"
-        ),
+        );
+      },
     },
     {
       title: "Submitted",
@@ -195,12 +227,12 @@ function LeadsPage() {
     <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
       <Card
         title={
-          <Typography.Title level={4} style={{ margin: 0 }}>
+          <Typography.Title level={4} style={{ margin: 0, fontSize: "clamp(16px, 4vw, 20px)" }}>
             Leads
           </Typography.Title>
         }
         extra={
-          <Button type="primary" onClick={openCreateModal}>
+          <Button type="primary" size="middle" onClick={openCreateModal} className="max-sm:text-sm">
             Add Lead
           </Button>
         }
@@ -217,6 +249,7 @@ function LeadsPage() {
           dataSource={leads}
           columns={columns}
           pagination={{ pageSize: 8 }}
+          scroll={{ x: "max-content" }}
           locale={{ emptyText: <Empty description="No leads yet" /> }}
         />
       </Card>
@@ -235,34 +268,82 @@ function LeadsPage() {
         okText={modalMode === "view" ? "Close" : modalMode === "create" ? "Add Lead" : "Save Changes"}
         confirmLoading={saving}
         centered
-        width={760}
+        width="min(760px, calc(100vw - 16px))"
+        styles={{
+          content: { maxWidth: "calc(100vw - 8px)" },
+        }}
         bodyStyle={{
-          maxHeight: "70vh",
+          maxHeight: "min(70vh, calc(100dvh - 140px))",
           overflowY: "auto",
           paddingRight: 8,
         }}
         destroyOnClose
       >
         {modalMode === "view" ? (
-          <Descriptions bordered size="small" column={1}>
-            <Descriptions.Item label="Name">{selectedLead?.name || "-"}</Descriptions.Item>
-            <Descriptions.Item label="Email">{selectedLead?.email || "-"}</Descriptions.Item>
-            <Descriptions.Item label="Phone">{selectedLead?.phone || "-"}</Descriptions.Item>
-            <Descriptions.Item label="Organization">
-              {selectedLead?.organization || "-"}
-            </Descriptions.Item>
-            <Descriptions.Item label="Subject">{selectedLead?.subject || "-"}</Descriptions.Item>
-            <Descriptions.Item label="Message">{selectedLead?.message || "-"}</Descriptions.Item>
-            <Descriptions.Item label="Source">{selectedLead?.source || "-"}</Descriptions.Item>
-            <Descriptions.Item label="Product">
-              {selectedLead?.source === "Product" && selectedLead?.product?.name
-                ? selectedLead.product.name
-                : "-"}
-            </Descriptions.Item>
-            <Descriptions.Item label="Submitted">
-              {selectedLead?.createdAt ? new Date(selectedLead.createdAt).toLocaleString() : "-"}
-            </Descriptions.Item>
-          </Descriptions>
+          <>
+            {selectedLead?.source === "Product" &&
+            (selectedLead?.product?.name || selectedLead?.product?.image) ? (
+              <div
+                style={{
+                  marginBottom: 16,
+                  padding: 14,
+                  borderRadius: 12,
+                  border: "1px solid #e8edf5",
+                  background: "#f8fafc",
+                }}
+              >
+                <Typography.Text type="secondary" strong style={{ display: "block", marginBottom: 8 }}>
+                  Enquiry product
+                </Typography.Text>
+                {selectedLead.product?.name ? (
+                  <Typography.Text strong style={{ display: "block", marginBottom: 10, fontSize: 16 }}>
+                    {selectedLead.product.name}
+                  </Typography.Text>
+                ) : null}
+                {selectedLead.product?.image ? (
+                  <Image
+                    src={selectedLead.product.image}
+                    alt={selectedLead.product.name || "Product"}
+                    style={{
+                      width: "100%",
+                      maxWidth: 420,
+                      maxHeight: 320,
+                      objectFit: "contain",
+                      borderRadius: 10,
+                      border: "1px solid #e2e8f0",
+                      background: "#fff",
+                      display: "block",
+                    }}
+                    preview={{
+                      mask: "View full size",
+                      rootStyle: { zIndex: 2000 },
+                    }}
+                  />
+                ) : (
+                  <Typography.Text type="secondary">No product image on file</Typography.Text>
+                )}
+              </div>
+            ) : null}
+            <Descriptions bordered size="small" column={1}>
+              <Descriptions.Item label="Name">{selectedLead?.name || "-"}</Descriptions.Item>
+              <Descriptions.Item label="Email">{selectedLead?.email || "-"}</Descriptions.Item>
+              <Descriptions.Item label="Phone">{selectedLead?.phone || "-"}</Descriptions.Item>
+              <Descriptions.Item label="Organization">
+                {selectedLead?.organization || "-"}
+              </Descriptions.Item>
+              <Descriptions.Item label="Subject">{selectedLead?.subject || "-"}</Descriptions.Item>
+              <Descriptions.Item label="Message">{selectedLead?.message || "-"}</Descriptions.Item>
+              <Descriptions.Item label="Source">{selectedLead?.source || "-"}</Descriptions.Item>
+              <Descriptions.Item label="Product">
+                {selectedLead?.source === "Product" && selectedLead?.product?.name
+                  ? selectedLead.product.name
+                  : "-"}
+              </Descriptions.Item>
+              <Descriptions.Item label="Submitted">
+                {selectedLead?.createdAt ? new Date(selectedLead.createdAt).toLocaleString() : "-"}
+              </Descriptions.Item>
+            </Descriptions>
+          </>
         ) : (
           <Form form={form} layout="vertical">
             <Form.Item name="name" label="Name" rules={[{ required: true, message: "Name is required" }]}>

@@ -212,7 +212,7 @@ function AboutPage() {
               { label: "MD Direct", value: "+91 97901 22512" },
               { label: "Billing", value: "+91 97871 12515" },
               { label: "Accounts", value: "+91 97513 82327" },
-              { label: "Emergency", value: "+91 99528 12513" },
+              { label: "Emergency", value: "+91 97901 22512" },
               { label: "Landline", value: "0452 – 436 1405" },
             ].map((c) => (
               <div key={c.label} className="flex justify-between text-sm border-b border-white/10 pb-2">

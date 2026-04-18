@@ -46,7 +46,7 @@ function Navbar() {
       {/* Top accent bar */}
       <div className="h-0.5 w-full bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-700" />
 
-      <div className="mx-auto flex h-24 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex h-[4.25rem] max-w-7xl items-center justify-between px-3 sm:h-24 sm:px-6 lg:px-8">
         {/* ── Brand / Logo ── */}
         <Link
           to="/"
@@ -56,7 +56,7 @@ function Navbar() {
           <img
             src="/logo.png"
             alt="MediAgency logo"
-            className="h-20 w-20 rounded-xl object-contain transition-transform duration-200 group-hover:scale-105"
+            className="h-14 w-14 rounded-lg object-contain transition-transform duration-200 group-hover:scale-105 sm:h-20 sm:w-20 sm:rounded-xl"
           />
         </Link>
 
@@ -77,11 +77,11 @@ function Navbar() {
         {/* ── Desktop Right Actions ── */}
         <div className="hidden items-center gap-3 md:flex">
           <a
-            href="tel:+9952812513"
+            href="tel:+919790122512"
             className="inline-flex items-center gap-1.5 text-base font-medium text-slate-500 transition-colors duration-200 hover:text-blue-600"
           >
             <PhoneOutlined className="text-blue-500" />
-            <span>+91 99528 12513</span>
+            <span>+91 97901 22512</span>
           </a>
           <div className="h-5 w-px bg-slate-200" />
           <motion.div whileTap={{ scale: 0.96 }} whileHover={{ scale: 1.04 }}>
@@ -129,9 +129,9 @@ function Navbar() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25, ease: "easeInOut" }}
-            className="overflow-hidden border-t border-slate-100 bg-white md:hidden"
+            className="max-h-[min(70vh,520px)] overflow-y-auto border-t border-slate-100 bg-white md:hidden"
           >
-            <div className="mx-auto max-w-7xl px-4 pb-6 pt-4">
+            <div className="mx-auto max-w-7xl px-3 pb-6 pt-3 sm:px-4">
               {/* Mobile nav links */}
               <nav className="flex flex-col gap-1">
                 {links.map((link) => (
@@ -152,11 +152,11 @@ function Navbar() {
               {/* Mobile CTA */}
               <div className="flex flex-col gap-3">
                 <a
-                  href="tel:+9952812513"
+                  href="tel:+919790122512"
                   className="inline-flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-blue-600"
                 >
                   <PhoneOutlined className="text-blue-500" />
-                  +91 99528 12513
+                  +91 97901 22512
                 </a>
                 <Link
                   to="/contact"

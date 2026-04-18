@@ -24,9 +24,9 @@ const contactCards = [
   {
     icon: <ClockCircleOutlined />,
     title: "24/7 Emergency",
-    value: "+91 99528 12513",
+    value: "+91 97901 22512",
     sub: "Critical drug supply",
-    href: "tel:+919952812513",
+    href: "tel:+919790122512",
     color: "bg-red-50 text-red-600 border-red-100",
     accent: "border-t-red-500",
   },
@@ -51,9 +51,9 @@ const contactCards = [
   {
     icon: <MailOutlined />,
     title: "Email",
-    value: "support@mediagency.com",
+    value: "madurailifecaredrugs@gmail.com",
     sub: "We respond within 24hrs",
-    href: "mailto:support@mediagency.com",
+    href: "mailto:madurailifecaredrugs@gmail.com",
     color: "bg-amber-50 text-amber-600 border-amber-100",
     accent: "border-t-amber-500",
   },
@@ -122,7 +122,6 @@ function ContactPage() {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -16 }}
       transition={{ duration: 0.35 }}
-      transition={{ duration: 0.35 }}
       className="space-y-12 mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8"
     >
       <Breadcrumbs />
@@ -151,10 +150,10 @@ function ContactPage() {
 
           <div className="mt-6 flex flex-wrap gap-3">
             <a
-              href="tel:+919952812513"
+              href="tel:+919790122512"
               className="inline-flex items-center gap-2 rounded-full bg-red-500 px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-red-500/30 transition hover:bg-red-400"
             >
-              🚨 Emergency: +91 99528 12513
+              🚨 Emergency: +91 97901 22512
             </a>
             <a
               href="https://wa.me/919790122512"

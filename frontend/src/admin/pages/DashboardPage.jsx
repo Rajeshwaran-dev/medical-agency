@@ -72,6 +72,7 @@ function DashboardPage() {
     stats.totalProducts,
     stats.totalCategories,
     stats.totalOffers,
+    stats.totalLeads,
     1,
   );
   const todayDateText = new Date().toDateString();
@@ -108,12 +109,23 @@ function DashboardPage() {
     stats.totalOffers +
     stats.totalLeads;
   const sectionGap = 20;
+  const t = Math.max(totalCount, 1);
+  const angleProducts = (stats.totalProducts / t) * 360;
+  const angleCategories = (stats.totalCategories / t) * 360;
+  const angleOffers = (stats.totalOffers / t) * 360;
+  const a1 = angleProducts;
+  const a2 = a1 + angleCategories;
+  const a3 = a2 + angleOffers;
 
   return (
     <div
       className="admin-dashboard-page"
       style={{
-        padding: 20,
+        width: "100%",
+        maxWidth: "100%",
+        minWidth: 0,
+        boxSizing: "border-box",
+        padding: "clamp(12px, 2.5vw, 20px)",
         borderRadius: 20,
         background:
           "radial-gradient(circle at 10% 0%, rgba(22,119,255,0.12), transparent 35%), radial-gradient(circle at 90% 30%, rgba(19,194,194,0.12), transparent 35%), #f7f9fc",
@@ -136,6 +148,7 @@ function DashboardPage() {
         <div
           style={{
             display: "flex",
+            flexWrap: "wrap",
             justifyContent: "space-between",
             alignItems: "center",
             gap: 16,
@@ -167,14 +180,15 @@ function DashboardPage() {
         </div>
       </Card>
 
-      <Row gutter={[sectionGap, sectionGap]}>
+      <Row gutter={[sectionGap, sectionGap]} style={{ maxWidth: "100%" }}>
         {cards.map((item, index) => (
-          <Col key={item.label} xs={24} md={8}>
+          <Col key={item.label} xs={24} sm={12} xl={6} style={{ display: "flex", minWidth: 0 }}>
             <motion.div
               initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.06 }}
-              whileHover={{ y: -8, scale: 1.02 }}
+              whileHover={{ y: -4 }}
+              style={{ flex: 1, width: "100%", minWidth: 0 }}
             >
               <Card
                 style={{
@@ -267,8 +281,8 @@ function DashboardPage() {
         ))}
       </Row>
 
-      <Row gutter={[sectionGap, sectionGap]}>
-        <Col xs={24} md={12}>
+      <Row gutter={[sectionGap, sectionGap]} style={{ maxWidth: "100%" }}>
+        <Col xs={24} md={12} style={{ minWidth: 0 }}>
           <Card
             title="Posting Overview"
             style={{
@@ -284,34 +298,39 @@ function DashboardPage() {
               <Tag color="blue">Products Created: {stats.totalProducts}</Tag>
             </div>
             {chartItems.map((item) => {
-              const widthPercent = Math.max(
-                (item.value / maxCount) * 100,
-                item.value > 0 ? 10 : 0,
+              const rawPercent = (item.value / maxCount) * 100;
+              const widthPercent = Math.min(
+                100,
+                Math.max(rawPercent, item.value > 0 ? 8 : 0),
               );
               return (
-                <div key={item.key} style={{ marginBottom: 14 }}>
+                <div key={item.key} style={{ marginBottom: 14, minWidth: 0 }}>
                   <div
                     style={{
                       display: "flex",
                       justifyContent: "space-between",
                       marginBottom: 4,
                       fontSize: 16,
+                      gap: 8,
                     }}
                   >
-                    <span>{item.label}</span>
+                    <span style={{ minWidth: 0 }}>{item.label}</span>
                     <strong>{item.value}</strong>
                   </div>
                   <div
                     style={{
                       width: "100%",
+                      maxWidth: "100%",
                       height: 10,
                       borderRadius: 999,
                       background: "#f1f3f5",
+                      overflow: "hidden",
                     }}
                   >
                     <div
                       style={{
                         width: `${widthPercent}%`,
+                        maxWidth: "100%",
                         height: "100%",
                         borderRadius: 999,
                         background: `linear-gradient(90deg, ${item.color}, ${item.color}bb)`,
@@ -325,7 +344,7 @@ function DashboardPage() {
           </Card>
         </Col>
 
-        <Col xs={24} md={12}>
+        <Col xs={24} md={12} style={{ minWidth: 0 }}>
           <Card
             title="Distribution Chart"
             style={{
@@ -342,17 +361,21 @@ function DashboardPage() {
                 gap: 18,
                 alignItems: "center",
                 flexWrap: "wrap",
+                minWidth: 0,
+                width: "100%",
               }}
             >
               <div
                 style={{
-                  width: 170,
-                  height: 170,
+                  width: "min(170px, 100%)",
+                  aspectRatio: "1",
+                  flexShrink: 0,
                   borderRadius: "50%",
                   background: `conic-gradient(
-                    #1677ff 0deg ${(stats.totalProducts / Math.max(totalCount, 1)) * 360}deg,
-                    #13c2c2 ${(stats.totalProducts / Math.max(totalCount, 1)) * 360}deg ${((stats.totalProducts + stats.totalCategories) / Math.max(totalCount, 1)) * 360}deg,
-                    #52c41a ${((stats.totalProducts + stats.totalCategories) / Math.max(totalCount, 1)) * 360}deg 360deg
+                    #1677ff 0deg ${a1}deg,
+                    #13c2c2 ${a1}deg ${a2}deg,
+                    #52c41a ${a2}deg ${a3}deg,
+                    #fa8c16 ${a3}deg 360deg
                   )`,
                   position: "relative",
                   marginInline: "auto",
@@ -379,8 +402,8 @@ function DashboardPage() {
               </div>
               <div
                 style={{
-                  flex: 1,
-                  minWidth: 180,
+                  flex: "1 1 160px",
+                  minWidth: 0,
                   display: "flex",
                   flexDirection: "column",
                   gap: 10,
@@ -435,6 +458,7 @@ function DashboardPage() {
           size="middle"
           rowKey="_id"
           pagination={{ pageSize: 5 }}
+          scroll={{ x: "max-content" }}
           style={{ fontSize: 16 }}
           dataSource={todayProducts}
           locale={{

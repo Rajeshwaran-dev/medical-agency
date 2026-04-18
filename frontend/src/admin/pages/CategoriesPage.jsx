@@ -105,7 +105,8 @@ function CategoriesPage() {
         onCancel={() => setOpen(false)}
         footer={null}
         centered
-        styles={{ body: { height: "68vh", overflowY: "auto", paddingRight: 8 } }}
+        destroyOnClose
+        styles={{ body: { paddingBlock: 4 } }}
       >
         <Form layout="vertical" form={form} onFinish={submit}>
           <Form.Item name="name" label="Name" rules={[{ required: true }]}>

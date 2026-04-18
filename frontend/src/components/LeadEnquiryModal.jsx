@@ -58,19 +58,19 @@ function LeadEnquiryModal({
   return (
     <div
       onClick={onClose}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/55 backdrop-blur-xl p-4"
+      className="fixed inset-0 z-50 flex items-end justify-center overflow-y-auto bg-slate-950/55 backdrop-blur-xl p-3 pb-6 sm:items-center sm:p-4 sm:pb-4 mb-0"
     >
       <div
         onClick={(event) => event.stopPropagation()}
-        className="flex h-[min(88vh,760px)] w-full max-w-3xl flex-col overflow-hidden rounded-[28px] border border-slate-200/80 bg-white shadow-[0_30px_90px_-25px_rgba(2,6,23,0.45)] ring-1 ring-slate-100"
+        className="flex max-h-[min(90dvh,calc(100dvh-24px))] w-full max-w-3xl flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-[0_30px_90px_-25px_rgba(2,6,23,0.45)] ring-1 ring-slate-100 sm:rounded-[28px]"
       >
-        <div className="border-b border-slate-200 bg-gradient-to-r from-slate-50 to-white px-5 py-5 sm:px-7">
+        <div className="border-b border-slate-200 bg-gradient-to-r from-slate-50 to-white px-4 py-4 sm:px-7 sm:py-5">
           <div className="flex items-start justify-between gap-3">
-            <div>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-500">
+            <div className="min-w-0">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-slate-500 sm:text-[11px] sm:tracking-[0.3em]">
                 Request A Callback
               </p>
-              <h2 className="mt-2 text-2xl sm:text-3xl font-semibold text-slate-900">
+              <h2 className="mt-2 text-xl font-semibold text-slate-900 sm:text-2xl md:text-3xl">
                 {title}
               </h2>
               <p className="mt-2 max-w-xl text-sm text-slate-500">{subtitle}</p>
@@ -87,7 +87,7 @@ function LeadEnquiryModal({
         </div>
 
         <form onSubmit={handleLeadSubmit} className="flex min-h-0 flex-1 flex-col">
-          <div className="flex-1 min-h-0 space-y-5 overflow-y-auto px-5 py-6 sm:px-7">
+          <div className="min-h-0 flex-1 space-y-4 overflow-y-auto px-4 py-5 sm:space-y-5 sm:px-7 sm:py-6">
             <div className="grid gap-4 sm:grid-cols-2">
               <label className="block">
                 <span className="text-sm font-medium text-slate-700">Name</span>
@@ -164,7 +164,7 @@ function LeadEnquiryModal({
               </p>
             )}
           </div>
-          <div className="shrink-0 border-t border-slate-200 bg-white/95 px-5 py-4 sm:px-7">
+          <div className="shrink-0 border-t border-slate-200 bg-white/95 px-4 py-3.5 sm:px-7 sm:py-4">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-center">
               <button
                 type="submit"

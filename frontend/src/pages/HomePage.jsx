@@ -427,10 +427,10 @@ function HomePage() {
             </div>
             <div className="flex flex-wrap gap-3">
               <a
-                href="tel:+919952812513"
+                href="tel:+919790122512"
                 className="inline-flex items-center gap-2 rounded-full bg-teal-600 px-6 py-3 text-sm font-bold text-white shadow-md transition hover:bg-teal-700"
               >
-                <PhoneOutlined /> Emergency: +91 99528 12513
+                <PhoneOutlined /> Emergency: +91 97901 22512
               </a>
               <Link
                 to="/contact"
