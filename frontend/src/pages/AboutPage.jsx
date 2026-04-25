@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { CheckCircleOutlined, SafetyCertificateOutlined, TruckOutlined, StarOutlined } from "@ant-design/icons";
+import { CheckCircleOutlined, SafetyCertificateOutlined, ExperimentOutlined, StarOutlined } from "@ant-design/icons";
 import SectionHeading from "../components/SectionHeading";
 import Breadcrumbs from "../components/Breadcrumbs";
 import aboutTeamImage from "../assets/images/about-team.jpg";
@@ -39,8 +39,8 @@ const specialtyRanges = [
 
 const highlights = [
   { icon: <SafetyCertificateOutlined />, title: "Licensed Distributor", desc: "Holds valid drug distribution licenses including narcotic drug permissions." },
-  { icon: <TruckOutlined />, title: "Cold Chain Logistics", desc: "Maintaining temperature-sensitive drug integrity with cold chain delivery." },
-  { icon: <StarOutlined />, title: "24+ Years Experience", desc: "Decades of expertise serving the Madurai healthcare ecosystem." },
+  { icon: <ExperimentOutlined />, title: "Walk in Cold Room", desc: "Keeps walkable cold room at 2-8degress celcius" },
+  { icon: <StarOutlined />, title: "8+ Years Experience", desc: "Years of expertise serving the Madurai healthcare ecosystem." },
   { icon: <CheckCircleOutlined />, title: "Authentic Products", desc: "Only original, manufacturer-certified pharmaceutical products." },
 ];
 
@@ -107,7 +107,7 @@ function AboutPage() {
           </div>
           <p className="text-slate-600 leading-relaxed">
             Founded by <strong className="text-slate-800">Arun Kumar MD</strong>, we have been at the
-            forefront of specialty pharmaceutical distribution in Madurai for over two decades. Our
+            forefront of specialty pharmaceutical distribution in <b>Madurai for over 8 years </b>. Our
             mission is to bridge the gap between critical drug manufacturers and the healthcare
             facilities that need them most.
           </p>
@@ -199,7 +199,7 @@ function AboutPage() {
             <h2 className="text-2xl font-extrabold sm:text-3xl">Arun Kumar, MD</h2>
             <p className="mt-1 text-teal-300 font-semibold">Managing Director, MediAgency</p>
             <p className="mt-4 text-slate-300 leading-relaxed">
-              With deep clinical knowledge and two decades of pharmaceutical distribution experience,
+              With deep clinical knowledge and <b> 8 years </b> of pharmaceutical distribution experience,
               Arun Kumar has built one of Madurai's most trusted medical supply businesses — focusing
               on critical, specialty, and life-saving medicines.
             </p>
@@ -211,9 +211,9 @@ function AboutPage() {
             <p className="text-sm font-semibold text-teal-300 uppercase tracking-wide">Contact Details</p>
             {[
               { label: "MD Direct", value: "+91 97901 22512" },
-              { label: "Billing", value: "+91 97871 12515" },
+              { label: "Billing", value: "+91 97515 30563" },
               { label: "Accounts", value: "+91 97513 82327" },
-              { label: "Emergency", value: "+91 97901 22512" },
+              { label: "Emergency", value: "+91 99528 12513" },
               { label: "Landline", value: "0452 – 436 1405" },
             ].map((c) => (
               <div key={c.label} className="flex justify-between text-sm border-b border-white/10 pb-2">

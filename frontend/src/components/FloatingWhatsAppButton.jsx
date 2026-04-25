@@ -1,7 +1,7 @@
 import whatsappIcon from "../assets/images/whatsapp-icon.png";
 
 /** E.164 without + — same primary line as Navbar / Footer */
-const WHATSAPP_E164 = "919790122512";
+const WHATSAPP_E164 = "917092555030";
 
 const defaultMessage =
   "Hi, I would like to know more about Madurai Lifecare Drugs / MediAgency. Please assist.";

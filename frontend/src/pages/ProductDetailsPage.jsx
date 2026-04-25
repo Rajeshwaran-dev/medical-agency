@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import {
   ArrowLeftOutlined,
   LeftOutlined,
+  PhoneOutlined,
   RightOutlined,
   TagOutlined
 } from "@ant-design/icons";
@@ -282,14 +283,23 @@ function ProductDetailsPage() {
             )}
           </div>
 
-          <button
-            type="button"
-            onClick={() => setEnquiryOpen(true)}
-            style={{ color: "white" }}
-            className="inline-flex w-full max-w-md items-center justify-center rounded-full bg-teal-600 px-8 py-3 text-sm font-semibold text-white shadow-sm ring-1 ring-teal-700/25 transition hover:bg-teal-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600 sm:w-auto sm:min-w-[200px]"
-          >
-            Enquire now
-          </button>
+          <div className="flex flex-wrap items-center gap-3">
+            <button
+              type="button"
+              onClick={() => setEnquiryOpen(true)}
+              style={{ color: "white" }}
+              className="inline-flex w-full max-w-md items-center justify-center rounded-full bg-teal-600 px-8 py-3 text-sm font-semibold text-white shadow-sm ring-1 ring-teal-700/25 transition hover:bg-teal-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600 sm:w-auto sm:min-w-[200px]"
+            >
+              Enquire now
+            </button>
+            <a
+              href="tel:+917092555030"
+              className="inline-flex h-[46px] w-[46px] items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 shadow-sm transition hover:border-slate-300 hover:bg-slate-50"
+              aria-label="Call for enquiry"
+            >
+              <PhoneOutlined className="text-lg" />
+            </a>
+          </div>
         </div>
       </section>
 

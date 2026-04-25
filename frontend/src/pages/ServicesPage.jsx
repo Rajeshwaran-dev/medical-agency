@@ -199,58 +199,50 @@ const THEMES = {
 
 const services = [
   {
-    title: "Pediatric Vaccines",
+    title: "Vaccines",
     description:
-      "Specialized immunization services for infants and children to ensure timely protection against preventable diseases.",
+      "All types of vaccines available, vaccines keeps walkable cold room at 2-8 degress celcius",
     iconKey: "safety",
     themeKey: "sky",
   },
   {
     title: "Gynaec Products",
-    description:
-      "High-quality pharmaceutical products dedicated to women's health and obstetric care.",
+    description: "All types of harmone injections, IVF products available",
     iconKey: "medicine",
     themeKey: "rose",
   },
   {
-    title: "Cancer Products",
+    title: "Cancer",
     description:
-      "Advanced oncology medications and supportive care products for comprehensive cancer treatment.",
+      "Advanced oncology and supportive care products for comprehensive cancer treatment. all types of cancer drugs available.",
     iconKey: "aim",
     themeKey: "violet",
   },
   {
-    title: "Human Immunoglobulin",
+    title: "Human Immunoglobulin & Albumin",
     description:
-      "Essential immunoglobulin therapies for patients with immune deficiencies and specialized medical needs.",
+      "Our range of Human Immunoglobulin & Albumin products are available based on medical requirements and hospital demand.All strengths available.",
     iconKey: "experiment",
     themeKey: "cyan",
   },
   {
-    title: "Anexet (Flumazenil)",
+    title: "Antidotes",
     description:
-      "Specialized clinical products including reversal agents for benzodiazepine-induced sedation.",
+      "Supply of all types of antidotes including Anti Snake Venom, Flumazenil, Pralidoxime, etc. for wholesale requirements.",
     iconKey: "rocket",
     themeKey: "indigo",
   },
   {
     title: "Cardiac Products",
     description:
-      "Comprehensive range of medications and diagnostic aids for heart health and cardiovascular maintenance.",
+      "All ranges of cardiac injections, including clot-busting (thrombolytic) agents, are available for wholesale supply. All Types available.",
     iconKey: "heart",
     themeKey: "peach",
   },
   {
-    title: "Imported Drugs",
+    title: "Nephrology Drugs",
     description:
-      "Access to globally sourced, high-quality international medications for specialized treatments.",
-    iconKey: "global",
-    themeKey: "mint",
-  },
-  {
-    title: "Kidney Products",
-    description:
-      "Dedicated solutions for renal health, including dialysis support and nephrology medications.",
+      "All ranges of nephrology drugs including dialysis medicines and kidney transplant drugs are available for wholesale supply.",
     iconKey: "medicine",
     themeKey: "blue",
   },
@@ -281,6 +273,13 @@ const services = [
       "Precision diagnostic tools and laboratory reagents for accurate medical testing and research.",
     iconKey: "experiment",
     themeKey: "slate",
+  },
+  {
+    title: "Imported Drugs",
+    description:
+      "Access to globally sourced, high-quality international medications for specialized treatments.",
+    iconKey: "global",
+    themeKey: "mint",
   },
 ];
 
@@ -399,8 +398,9 @@ const ServicesPage = () => {
                 transition={{ duration: 0.5, delay: 0.16 }}
                 className="mx-auto max-w-2xl text-base leading-relaxed text-slate-600 sm:text-lg"
               >
-                We provide a comprehensive range of high-quality medical products
-                and services tailored to healthcare professionals and patients.
+                We provide a comprehensive range of high-quality medical
+                products and services tailored to healthcare professionals and
+                patients.
               </motion.p>
               <motion.p
                 initial={{ opacity: 0, y: 8 }}

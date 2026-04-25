@@ -28,7 +28,7 @@ import heroSlide3 from "../assets/images/hero-slide-3.jpg";
 import aboutPreviewImage from "../assets/images/about-preview.jpg";
 
 const stats = [
-  { value: "24+", label: "Years of Trust" },
+  { value: "8+", label: "Years of Trust" },
   { value: "500+", label: "Products Available" },
   { value: "1000+", label: "Healthcare Clients" },
   { value: "24/7", label: "Emergency Support" },
@@ -149,7 +149,7 @@ const heroSlides = [
       </>
     ),
     description:
-      "Round-the-clock support for critical care medicines when every second counts. Dedicated to serving Madurai and beyond for 24+ years.",
+      "Round-the-clock support for critical care medicines when every second counts. Dedicated to serving Madurai and beyond for 8+ years.",
     image: heroSlide3,
     cta: "Contact Us",
     ctaLink: "/contact",
@@ -379,7 +379,7 @@ function HomePage() {
                 Madurai's Most Trusted Specialty Drug Supplier
               </h2>
               <p className="leading-relaxed text-slate-300">
-                With over two decades of experience, we are Madurai's leading
+                With over <b> 8 years of experience </b>, we are Madurai's leading
                 supplier of specialty pharmaceuticals — serving hospitals,
                 nursing homes, and clinics with authentic, licensed drugs and
                 unmatched customer support.

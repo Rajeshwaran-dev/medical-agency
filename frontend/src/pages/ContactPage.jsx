@@ -33,7 +33,7 @@ const contactCards = [
   {
     icon: <PhoneOutlined />,
     title: "Billing & Orders",
-    value: "+91 97871 12515",
+    value: "+91 97515 30563",
     sub: "Also: +91 97515 30563",
     href: "tel:+919787112515",
     color: "bg-teal-50 text-teal-600 border-teal-100",
@@ -150,13 +150,13 @@ function ContactPage() {
 
           <div className="mt-6 flex flex-wrap gap-3">
             <a
-              href="tel:+919790122512"
+              href="tel:+919952812513"
               className="inline-flex items-center gap-2 rounded-full bg-red-500 px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-red-500/30 transition hover:bg-red-400"
             >
-              🚨 Emergency: +91 97901 22512
+              🚨 Emergency: +91 99528 12513
             </a>
             <a
-              href="https://wa.me/919790122512"
+              href="https://wa.me/917092555030"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-white/20"
@@ -317,7 +317,7 @@ function ContactPage() {
                 <div className="flex justify-between">
                   <span className="text-slate-400">Office Hours</span>
                   <span className="font-medium text-slate-700">
-                    8:00 AM – 9:00 PM
+                    9:30 AM – 9:00 PM
                   </span>
                 </div>
                 <div className="flex justify-between">
@@ -329,7 +329,7 @@ function ContactPage() {
                 <div className="flex justify-between">
                   <span className="text-slate-400">Sunday</span>
                   <span className="font-medium text-slate-700">
-                    By Appointment
+                    Available
                   </span>
                 </div>
               </div>
