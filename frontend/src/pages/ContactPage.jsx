@@ -60,9 +60,9 @@ const contactCards = [
   {
     icon: <EnvironmentOutlined />,
     title: "Address",
-    value: "No 24, ground floor",
-    sub: "vaithiyanatharlyar Road, shenoy nagar goripalayam madurai - 625020",
-    href: "https://maps.google.com/?q=Shenoy+Nagar+Goripalayam+Madurai",
+    value: "18, Second Floor",
+    sub: "Vaidyanatha Iyer Street, Shenoy Nagar, Madurai - 625020",
+    href: "https://maps.app.goo.gl/fxTYjZanXgBakcbU9",
     color: "bg-green-50 text-green-600 border-green-100",
     accent: "border-t-green-500",
   },
@@ -307,9 +307,9 @@ function ContactPage() {
                     Madurai Life Care Drugs
                   </p>
                   <p className="text-slate-500 mt-0.5 leading-relaxed">
-                    No 24, ground floor, vaithiyanatharlyar Road,
+                    18, Second Floor, Vaidyanatha Iyer Street,
                     <br />
-                    shenoy nagar goripalayam madurai - 625020
+                    Shenoy Nagar, Madurai - 625020
                   </p>
                 </div>
               </div>
@@ -339,7 +339,7 @@ function ContactPage() {
           <div className="overflow-hidden rounded-3xl border border-slate-200 shadow-sm">
             <iframe
               title="Madurai Life Care Drugs Location"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3929.9!2d78.1198!3d9.9313!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zOcKwNTUnNTIuNyJOIDc4wrAwNycxMS4zIkU!5e0!3m2!1sen!2sin!4v1234567890"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3930.1235332822187!2d78.1324607!3d9.9265799!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b00c59e7c384de3%3A0x41d91d57ddef0eab!2sMADURAI%20LIFE%20CARE%20DRUGS!5e0!3m2!1sen!2sin!4v1714040000000"
               width="100%"
               height="200"
               style={{ border: 0 }}

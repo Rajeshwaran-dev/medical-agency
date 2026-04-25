@@ -204,7 +204,7 @@ function AboutPage() {
               on critical, specialty, and life-saving medicines.
             </p>
             <p className="mt-3 text-slate-400 text-sm">
-              📍 No 24, ground floor, vaithiyanatharlyar Road, shenoy nagar goripalayam madurai - 625020
+              📍 18, Second Floor, Vaidyanatha Iyer Street, Shenoy Nagar, Madurai - 625020
             </p>
           </div>
           <div className="rounded-2xl border border-white/10 bg-white/5 p-6 space-y-3">

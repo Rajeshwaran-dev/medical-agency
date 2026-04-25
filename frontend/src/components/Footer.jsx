@@ -67,7 +67,7 @@ function Footer() {
               <div className="overflow-hidden rounded-2xl border border-white/15 bg-slate-950/40 p-2">
                 <iframe
                   title="MediAgency location"
-                  src="https://maps.google.com/maps?q=No%2024%2C%20ground%20floor%2C%20vaithiyanatharlyar%20Road%2C%20shenoy%20nagar%20goripalayam%20madurai%20-%20625020&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3930.1235332822187!2d78.1324607!3d9.9265799!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b00c59e7c384de3%3A0x41d91d57ddef0eab!2sMADURAI%20LIFE%20CARE%20DRUGS!5e0!3m2!1sen!2sin!4v1714040000000"
                   className="h-44 w-full rounded-xl"
                   loading="lazy"
                 />
@@ -79,7 +79,7 @@ function Footer() {
               <ul className="space-y-3 text-base text-slate-200">
                 <li className="flex items-start gap-2 leading-6">
                   <EnvironmentOutlined className="mt-1 text-emerald-300" />
-                  No 24, ground floor, vaithiyanatharlyar Road, shenoy nagar goripalayam madurai - 625020
+                  18, Second Floor, Vaidyanatha Iyer Street, Shenoy Nagar, Madurai - 625020
                 </li>
                 <li className="flex items-start gap-2">
                   <PhoneOutlined className="mt-1 text-emerald-300" />
