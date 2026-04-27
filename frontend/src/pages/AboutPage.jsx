@@ -1,5 +1,10 @@
 import { motion } from "framer-motion";
-import { CheckCircleOutlined, SafetyCertificateOutlined, ExperimentOutlined, StarOutlined } from "@ant-design/icons";
+import {
+  CheckCircleOutlined,
+  SafetyCertificateOutlined,
+  ExperimentOutlined,
+  StarOutlined,
+} from "@ant-design/icons";
 import SectionHeading from "../components/SectionHeading";
 import Breadcrumbs from "../components/Breadcrumbs";
 import aboutTeamImage from "../assets/images/about-team.jpg";
@@ -9,39 +14,80 @@ const specialtyRanges = [
     category: "Surgery & ICU",
     color: "border-l-blue-500 bg-blue-50",
     badge: "bg-blue-100 text-blue-700",
-    items: ["Anaesthesia", "Critical Care", "Transplant Drugs", "Narcotic Drugs"],
+    items: [
+      "Anaesthesia",
+      "Critical Care",
+      "Transplant Drugs",
+      "Narcotic Drugs",
+    ],
   },
   {
     category: "Oncology & Specialty",
     color: "border-l-purple-500 bg-purple-50",
     badge: "bg-purple-100 text-purple-700",
-    items: ["Oncology Drugs", "Immunoglobulins", "Human Immunuglobin", "Imported Drugs"],
+    items: [
+      "Oncology Drugs",
+      "Immunoglobulins",
+      "Human Immunuglobin",
+      "Imported Drugs",
+    ],
   },
   {
     category: "Organ & System Care",
     color: "border-l-teal-500 bg-teal-50",
     badge: "bg-teal-100 text-teal-700",
-    items: ["Nephrology", "Cardiac Products", "Neuro Products", "Derma Skin Speciality"],
+    items: [
+      "Nephrology",
+      "Cardiac Products",
+      "Neuro Products",
+      "Derma Skin Speciality",
+    ],
   },
   {
     category: "Preventive & Women's Health",
     color: "border-l-pink-500 bg-pink-50",
     badge: "bg-pink-100 text-pink-700",
-    items: ["Vaccines", "Pediatric Vaccines", "Gynaecology Drugs", "Lab Products"],
+    items: [
+      "Vaccines",
+      "Pediatric Vaccines",
+      "Gynaecology Drugs",
+      "Lab Products",
+    ],
   },
   {
     category: "Infectious Disease",
     color: "border-l-orange-500 bg-orange-50",
     badge: "bg-orange-100 text-orange-700",
-    items: ["HIV Antiviral Drugs", "HIV Products", "Cardiac Products", "Anexet (Flumazanil)"],
+    items: [
+      "HIV Antiviral Drugs",
+      "HIV Products",
+      "Cardiac Products",
+      "Anexet (Flumazanil)",
+    ],
   },
 ];
 
 const highlights = [
-  { icon: <SafetyCertificateOutlined />, title: "Licensed Distributor", desc: "Holds valid drug distribution licenses including narcotic drug permissions." },
-  { icon: <ExperimentOutlined />, title: "Walk in Cold Room", desc: "Keeps walkable cold room at 2-8degress celcius" },
-  { icon: <StarOutlined />, title: "8+ Years Experience", desc: "Years of expertise serving the Madurai healthcare ecosystem." },
-  { icon: <CheckCircleOutlined />, title: "Authentic Products", desc: "Only original, manufacturer-certified pharmaceutical products." },
+  {
+    icon: <SafetyCertificateOutlined />,
+    title: "Licensed Distributor",
+    desc: "Holds valid drug distribution licenses including narcotic drug permissions.",
+  },
+  {
+    icon: <ExperimentOutlined />,
+    title: "Walk in Cold Room",
+    desc: "Keeps walkable cold room at 2-8degress celcius",
+  },
+  {
+    icon: <StarOutlined />,
+    title: "8+ Years Experience",
+    desc: "Years of expertise serving the Madurai healthcare ecosystem.",
+  },
+  {
+    icon: <CheckCircleOutlined />,
+    title: "Authentic Products",
+    desc: "Only original, manufacturer-certified pharmaceutical products.",
+  },
 ];
 
 const containerVariants = {
@@ -82,8 +128,9 @@ function AboutPage() {
             </span>
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-slate-300">
-            We combine medical expertise, reliable supply chains, and patient-first service to deliver
-            dependable specialty pharmaceuticals to your doorstep — across Madurai and Tamil Nadu.
+            We combine medical expertise, reliable supply chains, and
+            patient-first service to deliver dependable specialty
+            pharmaceuticals to your doorstep — across Madurai and Tamil Nadu.
           </p>
         </div>
         <div className="h-1 w-full bg-gradient-to-r from-teal-500 via-cyan-400 to-blue-500" />
@@ -100,24 +147,36 @@ function AboutPage() {
         </div>
         <div className="space-y-5 flex flex-col justify-center">
           <div>
-            <p className="text-xs font-bold uppercase tracking-widest text-teal-600">Who We Are</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-teal-600">
+              Who We Are
+            </p>
             <h2 className="mt-2 text-2xl font-extrabold text-slate-900 sm:text-3xl">
               Madurai's Leading Specialty Drug Distributor
             </h2>
           </div>
           <p className="text-slate-600 leading-relaxed">
-            Founded by <strong className="text-slate-800">Arun Kumar MD</strong>, we have been at the
-            forefront of specialty pharmaceutical distribution in <b>Madurai for over 8 years </b>. Our
-            mission is to bridge the gap between critical drug manufacturers and the healthcare
-            facilities that need them most.
+            Founded by <strong className="text-slate-800">Arun Kumar MD</strong>
+            , we have been at the forefront of specialty pharmaceutical
+            distribution in <b>Madurai for over 8 years </b>. Our mission is to
+            bridge the gap between critical drug manufacturers and the
+            healthcare facilities that need them most.
           </p>
           <p className="text-slate-600 leading-relaxed">
-            We serve multi-speciality hospitals, nursing homes, cancer centres, IVF clinics, and
-            government institutions — ensuring every patient gets the right medicine at the right time.
+            We serve multi-speciality hospitals, nursing homes, cancer centres,
+            IVF clinics, and government institutions — ensuring every patient
+            gets the right medicine at the right time.
           </p>
           <div className="grid grid-cols-2 gap-3">
-            {["Government Licensed", "Cold Chain Certified", "Narcotic Drug License", "Pan-TN Delivery"].map((pt) => (
-              <div key={pt} className="flex items-center gap-2 rounded-xl bg-slate-50 px-3 py-2 text-sm font-medium text-slate-700">
+            {[
+              "Government Licensed",
+              "Cold Chain Certified",
+              "Narcotic Drug License",
+              "Pan-TN Delivery",
+            ].map((pt) => (
+              <div
+                key={pt}
+                className="flex items-center gap-2 rounded-xl bg-slate-50 px-3 py-2 text-sm font-medium text-slate-700"
+              >
                 <CheckCircleOutlined className="text-teal-500" />
                 {pt}
               </div>
@@ -148,7 +207,9 @@ function AboutPage() {
                 {h.icon}
               </div>
               <h3 className="font-bold text-slate-900">{h.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-slate-500">{h.desc}</p>
+              <p className="mt-2 text-sm leading-relaxed text-slate-500">
+                {h.desc}
+              </p>
             </motion.div>
           ))}
         </div>
@@ -175,12 +236,17 @@ function AboutPage() {
               variants={itemVariants}
               className={`rounded-2xl border-l-4 p-5 ${range.color}`}
             >
-              <span className={`inline-block rounded-full px-3 py-1 text-xs font-bold mb-3 ${range.badge}`}>
+              <span
+                className={`inline-block rounded-full px-3 py-1 text-xs font-bold mb-3 ${range.badge}`}
+              >
                 {range.category}
               </span>
               <ul className="space-y-2">
                 {range.items.map((item) => (
-                  <li key={item} className="flex items-center gap-2 text-sm text-slate-700">
+                  <li
+                    key={item}
+                    className="flex items-center gap-2 text-sm text-slate-700"
+                  >
                     <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-current opacity-60" />
                     {item}
                   </li>
@@ -195,20 +261,33 @@ function AboutPage() {
       <section className="rounded-3xl bg-gradient-to-br from-slate-900 to-blue-950 p-8 text-white sm:p-10">
         <div className="grid gap-8 md:grid-cols-2 items-center">
           <div>
-            <p className="text-xs font-bold uppercase tracking-widest text-teal-400 mb-2">Leadership</p>
-            <h2 className="text-2xl font-extrabold sm:text-3xl">Arun Kumar, MD</h2>
-            <p className="mt-1 text-teal-300 font-semibold">Managing Director, MediAgency</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-teal-400 mb-2">
+              Leadership
+            </p>
+            <h2 className="text-2xl font-extrabold sm:text-3xl">
+              Arun Kumar, MD
+            </h2>
+            <p className="mt-1 text-teal-300 font-semibold">
+              Managing Director, MediAgency
+            </p>
             <p className="mt-4 text-slate-300 leading-relaxed">
-              With deep clinical knowledge and <b> 8 years </b> of pharmaceutical distribution experience,
-              Arun Kumar has built one of Madurai's most trusted medical supply businesses — focusing
-              on critical, specialty, and life-saving medicines.
+              Backed by 8 years of expertise in pharmaceutical distribution,
+              Arun Kumar leads a trusted wholesale operation focused on
+              life-saving and specialty medicines. Operating from Madurai, the
+              business ensures uninterrupted bulk supply of critical drugs to
+              hospitals and pharmacies, with a strong commitment to
+              authenticity, availability, and rapid delivery — supporting
+              healthcare providers in saving lives every day.
             </p>
             <p className="mt-3 text-slate-400 text-sm">
-              📍 18, Second Floor, Vaidyanatha Iyer Street, Shenoy Nagar, Madurai - 625020
+              📍 18, Second Floor, Vaidyanatha Iyer Street, Shenoy Nagar,
+              Madurai - 625020
             </p>
           </div>
           <div className="rounded-2xl border border-white/10 bg-white/5 p-6 space-y-3">
-            <p className="text-sm font-semibold text-teal-300 uppercase tracking-wide">Contact Details</p>
+            <p className="text-sm font-semibold text-teal-300 uppercase tracking-wide">
+              Contact Details
+            </p>
             {[
               { label: "MD Direct", value: "+91 97901 22512" },
               { label: "Billing", value: "+91 97515 30563" },
@@ -216,9 +295,15 @@ function AboutPage() {
               { label: "Emergency", value: "+91 99528 12513" },
               { label: "Landline", value: "0452 – 436 1405" },
             ].map((c) => (
-              <div key={c.label} className="flex justify-between text-sm border-b border-white/10 pb-2">
+              <div
+                key={c.label}
+                className="flex justify-between text-sm border-b border-white/10 pb-2"
+              >
                 <span className="text-slate-400">{c.label}</span>
-                <a href={`tel:${c.value.replace(/\s|-/g, "")}`} className="font-semibold text-white hover:text-teal-300">
+                <a
+                  href={`tel:${c.value.replace(/\s|-/g, "")}`}
+                  className="font-semibold text-white hover:text-teal-300"
+                >
                   {c.value}
                 </a>
               </div>

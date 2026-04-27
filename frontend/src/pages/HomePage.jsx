@@ -23,8 +23,8 @@ import "swiper/css/effect-fade";
 import SectionHeading from "../components/SectionHeading";
 import LeadEnquiryModal from "../components/LeadEnquiryModal";
 import heroSlide1 from "../assets/images/hero-slide-1.jpg";
-import heroSlide2 from "../assets/images/hero-slide-2.jpg";
-import heroSlide3 from "../assets/images/hero-slide-3.jpg";
+import heroSlide2 from "../assets/images/hero-slide-2.png";
+import heroSlide3 from "../assets/images/hero-slide-3.png";
 import aboutPreviewImage from "../assets/images/about-preview.jpg";
 
 const stats = [
@@ -142,14 +142,14 @@ const heroSlides = [
   {
     title: (
       <>
-        24/7 Emergency <br />
+        Wholesale Medical <br />
         <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-orange-300">
-          Healthcare Support
+          Distribution Facility
         </span>
       </>
     ),
     description:
-      "Round-the-clock support for critical care medicines when every second counts. Dedicated to serving Madurai and beyond for 8+ years.",
+      "Our large-scale Godown facility in Madurai maintains rigorous standards for pharmaceutical storage and inventory management.",
     image: heroSlide3,
     cta: "Contact Us",
     ctaLink: "/contact",

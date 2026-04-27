@@ -139,7 +139,7 @@ function Footer() {
           </div>
           <div className="mt-8 border-t border-white/10 pt-5">
             <div className="flex flex-col gap-3 text-base text-slate-300 sm:flex-row sm:items-center sm:justify-between">
-              <span>© {new Date().getFullYear()} MediAgency. All rights reserved.</span>
+              <span>© {new Date().getFullYear()} Madurai Life Care Drugs. All rights reserved.</span>
               <span>Professional Healthcare Solutions</span>
             </div>
           </div>
