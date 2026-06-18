@@ -6,13 +6,14 @@ import {
   LeftOutlined,
   PhoneOutlined,
   RightOutlined,
-  TagOutlined
+  TagOutlined,
+  WhatsAppOutlined
 } from "@ant-design/icons";
 import toast from "react-hot-toast";
 import ProductCard from "../components/ProductCard";
 import LoadingSkeleton from "../components/LoadingSkeleton";
 import { publicApi } from "../services/api";
-import LeadEnquiryModal from "../components/LeadEnquiryModal";
+
 import productPlaceholder from "../assets/images/product-placeholder.svg";
 
 function ProductDetailsPage() {
@@ -21,7 +22,7 @@ function ProductDetailsPage() {
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
-  const [enquiryOpen, setEnquiryOpen] = useState(false);
+
 
   useEffect(() => {
     const loadProductData = async () => {
@@ -57,19 +58,7 @@ function ProductDetailsPage() {
     loadProductData();
   }, [id]);
 
-  const regularPrice = Number(product?.regularPrice ?? product?.price ?? 0);
-  const offerPriceRaw = product?.offerPrice;
-  const hasOfferPrice =
-    offerPriceRaw !== null &&
-    offerPriceRaw !== undefined &&
-    offerPriceRaw !== "" &&
-    Number(offerPriceRaw) > 0;
-  const finalPrice = hasOfferPrice ? Number(offerPriceRaw) : regularPrice;
-  const showStrikethrough = hasOfferPrice && Number(offerPriceRaw) !== regularPrice;
-  const priceDropPercent =
-    showStrikethrough && regularPrice > 0
-      ? Math.round(((regularPrice - finalPrice) / regularPrice) * 100)
-      : 0;
+
   const galleryImages = (() => {
     if (Array.isArray(product?.images) && product.images.length > 0) return product.images;
     if (product?.image) return [product.image];
@@ -209,11 +198,7 @@ function ProductDetailsPage() {
               <span className="rounded-md bg-slate-100 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-slate-600">
                 {product.category?.name || "General"}
               </span>
-              {priceDropPercent > 0 && (
-                <span className="rounded-md bg-emerald-50 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-700">
-                  {priceDropPercent}% off
-                </span>
-              )}
+
             </div>
             <h1 className="mt-3 text-2xl font-bold tracking-tight text-slate-900 sm:text-[1.65rem]">
               {product.name}
@@ -227,29 +212,7 @@ function ProductDetailsPage() {
             )}
           </div>
 
-          <div>
-            <h2 className="border-b border-slate-100 pb-2 text-sm font-semibold uppercase tracking-wide text-slate-500">
-              Pricing
-            </h2>
-            <div className="mt-3 rounded-xl border border-slate-200 bg-slate-50/80 p-4">
-              <span className="text-xs font-medium text-slate-500">Your price</span>
-              <div className="mt-0.5 flex flex-wrap items-baseline gap-2">
-                <span className="text-2xl font-bold text-teal-700 sm:text-[1.65rem]">${finalPrice.toFixed(2)}</span>
-                {showStrikethrough ? (
-                  <span className="text-sm text-slate-400 line-through">${regularPrice.toFixed(2)}</span>
-                ) : null}
-              </div>
-              {showStrikethrough && (
-                <div className="mt-3 flex items-center gap-2 border-t border-slate-200/70 pt-3 text-xs text-slate-600">
-                  <TagOutlined className="text-teal-600" />
-                  <span>
-                    Offer price applied:{" "}
-                    <span className="font-medium text-slate-800">${finalPrice.toFixed(2)}</span>
-                  </span>
-                </div>
-              )}
-            </div>
-          </div>
+
 
           {detailText ? (
             <div>
@@ -284,20 +247,14 @@ function ProductDetailsPage() {
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
-            <button
-              type="button"
-              onClick={() => setEnquiryOpen(true)}
-              style={{ color: "white" }}
-              className="inline-flex w-full max-w-md items-center justify-center rounded-full bg-teal-600 px-8 py-3 text-sm font-semibold text-white shadow-sm ring-1 ring-teal-700/25 transition hover:bg-teal-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600 sm:w-auto sm:min-w-[200px]"
-            >
-              Enquire now
-            </button>
             <a
-              href="tel:+917092555030"
-              className="inline-flex h-[46px] w-[46px] items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 shadow-sm transition hover:border-slate-300 hover:bg-slate-50"
-              aria-label="Call for enquiry"
+              href={`https://wa.me/917092555030?text=${encodeURIComponent(`I'm interested in your product: ${product.name}`)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex w-full max-w-md items-center justify-center gap-2 rounded-full bg-green-600 px-8 py-3 text-sm font-semibold text-white shadow-sm ring-1 ring-green-700/25 transition hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600 sm:w-auto sm:min-w-[200px]"
             >
-              <PhoneOutlined className="text-lg" />
+              <WhatsAppOutlined className="text-lg" />
+              Chat with us
             </a>
           </div>
         </div>
@@ -318,15 +275,7 @@ function ProductDetailsPage() {
         )}
       </section>
 
-      <LeadEnquiryModal
-        open={enquiryOpen}
-        onClose={() => setEnquiryOpen(false)}
-        onSuccess={() => toast.success("Enquiry submitted for this product")}
-        title="Product Enquiry"
-        subtitle="Submit your requirement for this product and we will contact you shortly."
-        initialSubject={`Enquiry for ${product.name}`}
-        productId={product._id}
-      />
+
     </motion.div>
   );
 }

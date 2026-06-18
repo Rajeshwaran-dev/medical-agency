@@ -450,11 +450,7 @@ function DashboardPage() {
               title: "Category",
               render: (_, row) => row.category?.name || "-",
             },
-            {
-              title: "Price",
-              render: (_, row) =>
-                `$${Number(row.offerPrice ?? row.regularPrice ?? row.price ?? 0).toFixed(2)}`,
-            },
+
             {
               title: "Added At",
               render: (_, row) =>
