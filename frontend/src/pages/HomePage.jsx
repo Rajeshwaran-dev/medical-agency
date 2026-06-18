@@ -239,8 +239,9 @@ function HomePage() {
                     alt="Medical Background"
                     className="h-full w-full object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/80 to-transparent" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 to-transparent" />
+                  {/* Lighter overlay to show the background image clearly */}
+                  <div className="absolute inset-0 bg-slate-900/30" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-teal-900/20 to-transparent mix-blend-overlay" />
                 </div>
 
                 {/* Content Container */}
@@ -250,6 +251,7 @@ function HomePage() {
                       initial={{ opacity: 0, y: 30 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.8, delay: 0.2 }}
+                      className="rounded-3xl bg-slate-950/40 p-8 sm:p-12 backdrop-blur-md border border-white/10 shadow-2xl"
                     >
                       {/* Badge */}
                       <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-teal-400/30 bg-teal-400/10 px-3 py-1.5 sm:mb-8 sm:px-4 sm:py-2">
