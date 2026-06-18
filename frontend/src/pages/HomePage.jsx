@@ -22,8 +22,8 @@ import "swiper/css/effect-fade";
 
 import SectionHeading from "../components/SectionHeading";
 import LeadEnquiryModal from "../components/LeadEnquiryModal";
-import heroSlide1 from "../assets/images/hero-slide-3.jpg";
-import heroSlide2 from "../assets/images/hero-slide-2.png";
+import heroSlide1 from "../assets/images/banner-2.jpeg";
+import heroSlide2 from "../assets/images/banner-1.jpg";
 import heroSlide3 from "../assets/images/hero-slide-3.png";
 import aboutPreviewImage from "../assets/images/about-preview.jpg";
 
