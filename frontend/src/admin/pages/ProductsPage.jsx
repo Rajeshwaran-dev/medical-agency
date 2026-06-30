@@ -83,6 +83,10 @@ function ProductsPage() {
     const formData = new FormData();
     formData.append("name", values.name ?? "");
     formData.append("category", values.category ?? "");
+    formData.append("regularPrice", values.regularPrice ?? "");
+    if (values.offerPrice !== undefined && values.offerPrice !== null) {
+      formData.append("offerPrice", values.offerPrice);
+    }
     formData.append("description", values.description ?? "");
     formData.append("specs", JSON.stringify(values.specs || []));
     imageFiles.forEach((file) => formData.append("images", file));
@@ -190,6 +194,8 @@ function ProductsPage() {
                     form.setFieldsValue({
                       name: record.name,
                       category: record.category?._id,
+                      regularPrice: record.regularPrice ?? record.price,
+                      offerPrice: record.offerPrice,
                       description: record.description,
                       specs:
                         Array.isArray(record.specs) && record.specs.length > 0
@@ -236,6 +242,15 @@ function ProductsPage() {
           <Form.Item name="category" label="Category" rules={[{ required: true }]}>
             <Select options={categories.map((c) => ({ value: c._id, label: c.name }))} />
           </Form.Item>
+          
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <Form.Item name="regularPrice" label="Regular Price" rules={[{ required: true }]}>
+              <InputNumber style={{ width: "100%" }} min={0} />
+            </Form.Item>
+            <Form.Item name="offerPrice" label="Offer Price">
+              <InputNumber style={{ width: "100%" }} min={0} />
+            </Form.Item>
+          </div>
 
           <Form.Item name="description" label="Description" rules={[{ required: true }]}>
             <Input.TextArea rows={3} />
