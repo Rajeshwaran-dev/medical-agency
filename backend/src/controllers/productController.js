@@ -41,7 +41,6 @@ const normalizeProductPayload = (doc) => {
       : [];
   return {
     ...data,
-    price: data.price || 0,
     images: normalizedImages,
     image: data.image || normalizedImages[0] || "",
     specs: Array.isArray(data.specs) ? data.specs : []
@@ -92,12 +91,11 @@ const getProductById = asyncHandler(async (req, res) => {
 });
 
 const createProduct = asyncHandler(async (req, res) => {
-  const { name, category, price, description, specs } = req.body;
-  const parsedPrice = parseNumericPrice(price);
+  const { name, category, description, specs } = req.body;
 
-  if (!name || !category || parsedPrice === null || !description) {
+  if (!name || !category || !description) {
     res.status(400);
-    throw new Error("Name, category, price and description are required");
+    throw new Error("Name, category and description are required");
   }
 
   const categoryExists = await Category.findById(category);
@@ -119,7 +117,6 @@ const createProduct = asyncHandler(async (req, res) => {
   const product = await Product.create({
     name: name.trim(),
     category,
-    price: parsedPrice,
     image: uploadedImages[0] || "",
     images: uploadedImages,
     specs: parsedSpecs,
@@ -139,8 +136,7 @@ const updateProduct = asyncHandler(async (req, res) => {
     throw new Error("Product not found");
   }
 
-  const { name, category, price, description, specs } = req.body;
-  const parsedPrice = parseNumericPrice(price);
+  const { name, category, description, specs } = req.body;
 
   if (category) {
     const categoryExists = await Category.findById(category);
@@ -166,9 +162,6 @@ const updateProduct = asyncHandler(async (req, res) => {
 
   product.name = name?.trim() || product.name;
   product.category = category || product.category;
-  if (parsedPrice !== null) {
-    product.price = parsedPrice;
-  }
   product.description = description?.trim() || product.description;
 
   if ((!product.images || product.images.length === 0) && product.image) {
