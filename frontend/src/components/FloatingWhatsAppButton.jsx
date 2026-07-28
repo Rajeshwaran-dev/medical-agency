@@ -4,7 +4,7 @@ import whatsappIcon from "../assets/images/whatsapp-icon.png";
 const WHATSAPP_E164 = "917092555030";
 
 const defaultMessage =
-  "Hi, I would like to know more about Madurai Lifecare Drugs / MediAgency. Please assist.";
+  "Hi, I would like to know more about Madurai Lifecare Drugs / Madurailifecaredrugs. Please assist.";
 
 function FloatingWhatsAppButton() {
   const href = `https://wa.me/${WHATSAPP_E164}?text=${encodeURIComponent(defaultMessage)}`;

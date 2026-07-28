@@ -28,7 +28,7 @@ function Footer() {
               <div className="flex items-center gap-3">
                 <img
                   src="/logo.png"
-                  alt="MediAgency logo"
+                  alt="Madurailifecaredrugs logo"
                   className="h-16 w-16 rounded-lg object-contain sm:h-24 sm:w-24 sm:rounded-xl"
                 />
               </div>
@@ -66,7 +66,7 @@ function Footer() {
               <h4 className="text-xs font-semibold uppercase tracking-[0.22em] text-emerald-300">Location</h4>
               <div className="overflow-hidden rounded-2xl border border-white/15 bg-slate-950/40 p-2">
                 <iframe
-                  title="MediAgency location"
+                  title="Madurailifecaredrugs location"
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3930.1235332822187!2d78.1324607!3d9.9265799!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b00c59e7c384de3%3A0x41d91d57ddef0eab!2sMADURAI%20LIFE%20CARE%20DRUGS!5e0!3m2!1sen!2sin!4v1714040000000"
                   className="h-44 w-full rounded-xl"
                   loading="lazy"

@@ -55,7 +55,7 @@ function Navbar() {
         >
           <img
             src="/logo.png"
-            alt="MediAgency logo"
+            alt="Madurailifecaredrugs logo"
             className="h-14 w-14 rounded-lg object-contain transition-transform duration-200 group-hover:scale-105 sm:h-20 sm:w-20 sm:rounded-xl"
           />
         </Link>

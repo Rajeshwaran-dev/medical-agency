@@ -118,7 +118,7 @@ function AboutPage() {
         <div className="relative px-8 py-12 sm:px-12 sm:py-16">
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-teal-400/30 bg-teal-400/10 px-4 py-1.5">
             <span className="text-xs font-bold uppercase tracking-widest text-teal-300">
-              About MediAgency
+              About Madurailifecaredrugs
             </span>
           </div>
           <h1 className="mt-3 max-w-3xl text-4xl font-extrabold leading-tight sm:text-5xl">
@@ -268,7 +268,7 @@ function AboutPage() {
               Arun Kumar, MD
             </h2>
             <p className="mt-1 text-teal-300 font-semibold">
-              Managing Director, MediAgency
+              Managing Director, Madurailifecaredrugs
             </p>
             <p className="mt-4 text-slate-300 leading-relaxed">
               Backed by 8 years of expertise in pharmaceutical distribution,
